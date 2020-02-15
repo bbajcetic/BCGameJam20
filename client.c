@@ -58,14 +58,6 @@ int main(int argc, char *argv[])
 		}
 
 		break;
-
-		if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
-			close(sockfd);
-			perror("listener: bind");
-			continue;
-		}
-
-		break;
 	}
 
 	if (p == NULL) {
