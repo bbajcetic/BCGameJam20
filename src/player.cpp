@@ -25,7 +25,8 @@ void Player::loadTexture(std::string texturePath, int frames, int rows, int cols
 }
 
 void Player::free() {
-    // FREE TEXTURE HERE *********************************
+    playerTexture->free();
+    playerTexture = NULL;
 }
 
 void Player::changePosition(int x, int y) {
