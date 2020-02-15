@@ -7,6 +7,6 @@ const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
 // Player
-const int PLAYER_MOVESPEED = 8;
+const int PLAYER_VELOCITY = 8;
 
 #endif

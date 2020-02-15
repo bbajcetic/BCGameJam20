@@ -16,7 +16,8 @@ public:
 	void free();
 
 	void changePosition(int x, int y);
-	void movePlayer();
+    void updateVelocity(SDL_Event& e);
+    void updatePosition();
 
 	void renderPlayer();
 
@@ -27,13 +28,16 @@ public:
 private:
 	Texture* playerTexture;
 
-	int moveSpeed;
+	int velocity;
 
 	int playerWidth;
 	int playerHeight;
 
 	int xPos;
 	int yPos;
+
+    int xVel;
+    int yVel;
 };
 
 #endif

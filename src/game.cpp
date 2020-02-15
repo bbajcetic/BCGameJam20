@@ -36,7 +36,13 @@ bool runGame() {
                         break;
                 }
             }
+
+            // Player movement handler
+            player1.updateVelocity(e);
         }
+
+        // Update player position based on velocity
+        player1.updatePosition();
 
         // Clear renderer
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
