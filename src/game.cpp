@@ -17,7 +17,6 @@ bool runGame() {
     SDL_Event e;
 
     // Create temp player for test *******
-
     Player player1;
     player1.loadTexture("./assets/example.png", 1, 1, 1);
     player1.changePosition(50,50);

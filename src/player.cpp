@@ -3,7 +3,7 @@
 Player::Player() {
     playerTexture = NULL;
 
-    velocity = PLAYER_VELOCITY;
+    deltaVel = PLAYER_VELOCITY;
 
     playerWidth = 0;
     playerHeight = 0;
@@ -43,16 +43,16 @@ void Player::updateVelocity(SDL_Event& e) {
         switch( e.key.keysym.sym )
         {
             case SDLK_UP:
-                yVel -= velocity;
+                yVel -= deltaVel;
                 break;
             case SDLK_DOWN:
-                yVel += velocity;
+                yVel += deltaVel;
                 break;
             case SDLK_LEFT:
-                xVel -= velocity;
+                xVel -= deltaVel;
                 break;
             case SDLK_RIGHT:
-                xVel += velocity;
+                xVel += deltaVel;
                 break;
         }
     }
@@ -60,16 +60,16 @@ void Player::updateVelocity(SDL_Event& e) {
         switch( e.key.keysym.sym )
         {
             case SDLK_UP:
-                yVel += velocity;
+                yVel += deltaVel;
                 break;
             case SDLK_DOWN:
-                yVel -= velocity;
+                yVel -= deltaVel;
                 break;
             case SDLK_LEFT:
-                xVel += velocity;
+                xVel += deltaVel;
                 break;
             case SDLK_RIGHT:
-                xVel -= velocity;
+                xVel -= deltaVel;
                 break;
         }
     }

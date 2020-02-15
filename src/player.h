@@ -28,7 +28,7 @@ public:
 private:
 	Texture* playerTexture;
 
-	int velocity;
+	int deltaVel;
 
 	int playerWidth;
 	int playerHeight;
