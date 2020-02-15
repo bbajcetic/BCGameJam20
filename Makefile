@@ -1,5 +1,5 @@
 #OBJS specifies files to compile
-OBJS = src/main.o src/game.o src/texture.o
+OBJS = src/main.o src/game.o src/texture.o src/player.o
 
 #CC specifies compiler
 CC = g++
@@ -18,4 +18,6 @@ all: $(OBJS)
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 
 main.o: src/constants.h src/game.h
-game.o: 
+game.o: src/constants.h texture.h
+texture.o: 
+player.o: src/constants.h src/texture.h

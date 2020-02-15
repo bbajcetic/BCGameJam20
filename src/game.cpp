@@ -9,15 +9,18 @@
 #include "game.h"
 #include "constants.h"
 #include "texture.h"
+#include "player.h"
 
 bool runGame() {
 
     // Event handler
     SDL_Event e;
 
-    // Create temp texture for test
-    Texture* exampleTex = new Texture();
-    exampleTex->loadTexture("./assets/example.png", 1, 1, 1);
+    // Create temp player for test *******
+
+    Player player1;
+    player1.loadTexture("./assets/example.png", 1, 1, 1);
+    player1.changePosition(50,50);
 
     while(running) {
 
@@ -39,7 +42,7 @@ bool runGame() {
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(gRenderer);
 
-        exampleTex->render(10,10);
+        player1.renderPlayer();
 
 		// Update screen
 		SDL_RenderPresent(gRenderer);
