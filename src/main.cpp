@@ -101,9 +101,7 @@ int main(int argc, char *argv[]) {
     }
     else {
         // Game loop
-        while(true) {
-            runGame();
-        }
+        runGame();
         printf("Game ending\n");
     }
 
