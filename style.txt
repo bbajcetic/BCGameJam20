@@ -1,2 +1,6 @@
-File names are camel case
-i.e. game.cpp, game.h, whatIsUp.cpp...
+Files:
+    -file names are camel case, i.e. game.cpp, game.h, whatIsUp.cpp...
+
+Modules/Classes:
+    -custom class types are capitalized
+    -methods are in the form ClassName_methodName
