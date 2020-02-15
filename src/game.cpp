@@ -23,7 +23,11 @@ bool runGame() {
     player1.changePosition(50,50);
 
     Map arena;
-    arena.loadMap("src/test.map");
+    arena.loadMap("src/arena.map");
+    arena.loadMapTexture("./assets/character_test.png",
+                        "./assets/wall.png",
+                        "./assets/path.png");
+    printf("sup\n");
 
     while(running) {
 
@@ -51,6 +55,7 @@ bool runGame() {
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(gRenderer);
 
+        arena.renderMap();
         player1.renderPlayer();
 
 		// Update screen

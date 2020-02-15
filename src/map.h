@@ -22,7 +22,10 @@ class Map {
         // Load map from map file
         void loadMap(std::string mapPath);
         void emptyMap();
-
+        // Load map texture
+        void loadMapTexture(std::string mapOverlayPath,
+                            std::string wallPath,
+                            std::string groundPath);
         void renderMap();
     private:
         Texture* mapOverlay;

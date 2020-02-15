@@ -41,7 +41,19 @@
             mapTiles[i] = tileInfo;
             i++;
         }
+    }
 
+    void Map::loadMapTexture(std::string mapOverlayPath,
+                            std::string wallPath,
+                            std::string groundPath) {
+        mapOverlay = new Texture();
+        mapOverlay->loadTexture(mapOverlayPath, 1, 1, 1);
+
+        tempWall = new Texture();
+        tempWall->loadTexture(wallPath, 1, 1, 1);
+        
+        tempGround = new Texture();
+        tempGround->loadTexture(groundPath, 1, 1, 1);
     }
 
     void Map::emptyMap() {
@@ -51,5 +63,20 @@
     }
 
     void Map::renderMap() {
+        int xP = 0;
+        int yP = 0;
+        for (int i = 0; i < NUM_WIDTH_TILES * NUM_HEIGHT_TILES; i++) {
+            xP = TILE_WIDTH * (i%NUM_WIDTH_TILES);
+            yP = TILE_HEIGHT * (i/NUM_WIDTH_TILES);
 
+            // Draw ground
+            if (mapTiles[i] == 0) {
+               tempGround->render(xP, yP);
+            }
+            // Draw wall
+            else if (mapTiles[i] == 1) {
+                tempWall->render(xP, yP);
+            }
+            
+        }
     }
