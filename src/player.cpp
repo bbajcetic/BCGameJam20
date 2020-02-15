@@ -79,6 +79,8 @@ void Player::updateVelocity(SDL_Event& e) {
 // Maybe check here for invalid movements?
 void Player::updatePosition() {
     xPos += xVel;
+    
+
     yPos += yVel;
 }
 

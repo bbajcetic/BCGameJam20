@@ -18,7 +18,7 @@ bool runGame() {
 
     // Create temp player for test *******
     Player player1;
-    player1.loadTexture("./assets/example.png", 1, 1, 1);
+    player1.loadTexture("./assets/character_test.png", 9, 3, 3);
     player1.changePosition(50,50);
 
     while(running) {
