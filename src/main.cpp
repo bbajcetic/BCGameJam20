@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "constants.h"
+#include "game.h"
 
 /* Functions */
 
@@ -101,7 +102,7 @@ int main(int argc, char *argv[]) {
     else {
         // Game loop
         while(true) {
-
+            runGame();
         }
         printf("Game ending\n");
     }

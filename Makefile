@@ -1,5 +1,5 @@
 #OBJS specifies files to compile
-OBJS = src/main.o
+OBJS = src/main.o src/game.o src/texture.o
 
 #CC specifies compiler
 CC = g++
@@ -17,4 +17,5 @@ LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 all: $(OBJS)
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 
-main.o: src/constants.h
+main.o: src/constants.h src/game.h
+game.o: 
