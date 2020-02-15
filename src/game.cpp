@@ -10,6 +10,7 @@
 #include "constants.h"
 #include "texture.h"
 #include "player.h"
+#include "map.h"
 
 bool runGame() {
 
@@ -20,6 +21,9 @@ bool runGame() {
     Player player1;
     player1.loadTexture("./assets/character_test.png", 9, 3, 3);
     player1.changePosition(50,50);
+
+    Map arena;
+    arena.loadMap("src/test.map");
 
     while(running) {
 
