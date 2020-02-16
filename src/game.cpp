@@ -191,6 +191,9 @@ bool runGame() {
                 networkUpdate(sendData, recvData, MAXBUFLEN);
             }
 
+            // Update zone status checking if players are in a zone or not
+            zone.updateZone(player1.getPlayerHitBox(), player2.getPlayerHitBox());
+
             arena->renderMap();
             player1.renderPlayer();
             player2.renderPlayer();

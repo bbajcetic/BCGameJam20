@@ -12,6 +12,8 @@ Player::Player() {
     xPos = 0;
     yPos = 0;
 
+    updateHitBox();
+
     angle = 0.0;
 
     xVel = 0;
@@ -43,6 +45,8 @@ void Player::free() {
 void Player::changePosition(int x, int y) {
 	xPos = x;
 	yPos = y;
+
+    updateHitBox();
 }
 
 void Player::changeAngle(double a) {
@@ -155,6 +159,8 @@ void Player::updatePosition(Map* currentMap) {
         }
     }
 
+    updateHitBox();
+
 }
 
 
@@ -195,5 +201,12 @@ void Player::turn(int x, int y) {
 
     angle = double(new_angle * 180.0/PI) + 270.0;
     //printf("%f\n", angle);
+}
+
+void Player::updateHitBox() {
+    playerHitBox.x = xPos;
+    playerHitBox.y = yPos;
+    playerHitBox.w = playerWidth;
+    playerHitBox.h = playerHeight;
 }
 

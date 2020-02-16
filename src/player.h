@@ -35,6 +35,10 @@ public:
 
     void turn(int x, int y);
 
+    // Update hitbox based on x, y, width, and height
+    // Change probably since we want it smaller then sprite size
+    void updateHitBox();
+
     int getxPos() {return xPos;}
     int getyPos() {return yPos;}
     double getAngle() {return angle;}
@@ -45,6 +49,8 @@ public:
 
     bool getIsMoving() {return isMoving;}
 
+    SDL_Rect getPlayerHitBox() {return playerHitBox;}
+
 
 private:
 	Texture* playerTexture;
@@ -53,6 +59,8 @@ private:
 
 	int playerWidth;
 	int playerHeight;
+
+    SDL_Rect playerHitBox;
 
 	int xPos;
 	int yPos;
