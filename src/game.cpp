@@ -243,6 +243,9 @@ void networkUpdate(char* send_buf, char* recv_buf, int recv_size) {
 	    if ((numbytes = Client_send(send_buf)) == -1) {
 	    	perror("talker: sendto during game");
 	    }
+        else {
+            printf("Sent data!");
+        }
 
         //receive
         while ((numbytes = Client_receive(recv_buf, recv_size)) != -1) {
