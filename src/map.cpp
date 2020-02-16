@@ -128,6 +128,9 @@
     void Map::renderMap() {
         int xP = 0;
         int yP = 0;
+
+        // Draw overlay
+        mapOverlay->render(0,0);
         for (int i = 0; i < NUM_WIDTH_TILES * NUM_HEIGHT_TILES; i++) {
             xP = TILE_WIDTH * (i%NUM_WIDTH_TILES);
             yP = TILE_HEIGHT * (i/NUM_WIDTH_TILES);
