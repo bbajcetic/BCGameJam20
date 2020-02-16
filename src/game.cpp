@@ -13,6 +13,13 @@
 #include "map.h"
 #include "timer.h"
 #include "zone.h"
+#include "network.h"
+
+enum GameState {
+    MAIN_MENU,
+    CONNECT,
+    ACTION
+};
 
 bool runGame() {
 
@@ -32,6 +39,8 @@ bool runGame() {
     Player player1;
     player1.loadTexture("./assets/player1.png", 4, 2, 2);
     player1.changePosition(0,0);
+
+    bool isHost = false;
 
     Map* arena;
     arena = new Map();
@@ -57,6 +66,10 @@ bool runGame() {
                     case SDLK_ESCAPE:
                         printf("Quitting game.\n");
                         running = false;
+                        break;
+                    case SDLK_c:
+                        break;
+                    case SDLK_h:
                         break;
                     default:
                         break;

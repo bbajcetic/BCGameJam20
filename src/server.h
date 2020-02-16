@@ -1,6 +1,22 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <stdbool.h>
+#include <fcntl.h>
+#include <time.h>
+#include "custom.h"
+#include "server.h"
+
 struct serverInfo {
     int sockfd;
     struct addrinfo* netInfo;
