@@ -22,7 +22,7 @@
 
 #define MAXBUFLEN 100
 
-static struct networkInfo connection;
+static struct serverInfo connection;
 
 void Server_initialize() {
 	struct addrinfo *p, hints, *servinfo;
@@ -67,7 +67,7 @@ void Server_initialize() {
 }
 
 void Server_connect() {
-	char buf[MAXBUFLEN];
+	char buf[MAXBUFLEN] = {0};
 	socklen_t addr_len = sizeof(connection.client_addr);
     int numbytes;
     //get client's address info
@@ -89,43 +89,6 @@ int Server_send(char* buf) {
     return numbytes;
 }
 
-int main(void)
-{
-    Server_initialize();
-
-    Server_connect();
-
-    int msg_no = 0;
-
-	char buf[MAXBUFLEN];
-    char msg[1024];
-	int numbytes;
-    strcpy(msg, "Hello from server ");
-    snprintf(msg+strlen(msg), 1024, "%d\n", msg_no);
-
-    while (true) {
-
-        msg_no++;
-        printf("Sending: %s\n", msg);
-
-        while ((numbytes = Server_receive(buf, MAXBUFLEN)) != -1) {
-	        buf[numbytes] = '\0';
-	        printf("Receiving: %s\n", buf);
-	    }
-        if (errno != EAGAIN && errno != EWOULDBLOCK) {
-	    	perror("recvfrom");
-        }
-
-
-        if ((numbytes = Server_send(msg)) == -1) {
-	    	perror("listener: sendto");
-	    }
-
-        wait(0, 10000);
-    }
-
-
+void Server_clean() {
 	close(connection.sockfd);
-
-	return 0;
 }

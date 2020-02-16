@@ -1,7 +1,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-struct networkInfo {
+struct clientInfo {
     int sockfd;
     struct addrinfo* netInfo;
     char server_ip[20];

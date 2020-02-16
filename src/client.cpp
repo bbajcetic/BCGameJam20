@@ -21,7 +21,7 @@
 #define SERVERPORT "4950"	// the port users will be connecting to
 #define MAXBUFLEN 100
 
-static struct networkInfo connection;
+static struct clientInfo connection;
 
 void Client_initialize() {
 	struct addrinfo *p, hints, *servinfo;
@@ -91,16 +91,18 @@ int main(int argc, char *argv[])
     Client_connect();
 
 
+
     int msg_no = 0;
 
-	char buf[MAXBUFLEN];
-    char msg[1024];
 	int numbytes;
-    strcpy(msg, "Hello from client ");
-    snprintf(msg+strlen(msg), 1024, "%d\n", msg_no);
 
     while (true) {
+	    char buf[MAXBUFLEN] = {0};
         msg_no++;
+        char msg[1024] = {0};
+        strcpy(msg, "Hello from client ");
+        snprintf(msg+strlen(msg), 1024, "%d\n", msg_no);
+        msg[strlen(msg)] = '\0';
         printf("Sending: %s\n", msg);
 
 	    if ((numbytes = Client_send(msg)) == -1) {
