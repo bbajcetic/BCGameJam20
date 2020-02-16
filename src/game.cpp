@@ -24,7 +24,7 @@ bool runGame() {
 
     Map* arena;
     arena = new Map();
-    arena->loadMap("src/arena.map");
+    arena->loadMap("src/central.map");
     arena->loadMapTexture("./assets/character_test.png",
                         "./assets/wall.png",
                         "./assets/path.png");
