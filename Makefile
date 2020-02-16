@@ -17,8 +17,8 @@ LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 all: $(OBJS)
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 
-main.o: src/constants.h src/game.h
-game.o: src/constants.h src/texture.h src/map.h src/player.h
-texture.o: 
-player.o: src/constants.h src/texture.h
-map.o: src/constants.h src/texture.h
+src/main.o: src/constants.h src/game.h
+src/game.o: src/constants.h src/texture.h src/map.h src/player.h
+src/texture.o: 
+src/player.o: src/constants.h src/texture.h
+src/map.o: src/constants.h src/texture.h
