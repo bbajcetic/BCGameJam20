@@ -68,7 +68,7 @@ bool runGame() {
     arena = new Map();
     arena->loadMap("src/centralv2.map");
     arena->loadMapTexture("./assets/grassworld.png",
-                        "./assets/water.png",
+                        "./assets/ruin_rock.png",
                         "./assets/empty.png");
 
     Zone zone;
@@ -177,7 +177,7 @@ bool runGame() {
         }
         // Draw players, map, zones, etc.
         else if (currentState == ACTION) {
-
+            
             // If host (player 1), send p1 data and recieve p2
             if (isHost) {
                 sprintf(sendData, "p1,%d,%d,%f", player1.getxPos(),
@@ -190,7 +190,7 @@ bool runGame() {
                         player2.getyPos(), player2.getAngle());
                 networkUpdate(sendData, recvData, MAXBUFLEN);
             }
-
+            
             // Update zone status checking if players are in a zone or not
             zone.updateZone(player1.getPlayerHitBox(), player2.getPlayerHitBox());
 
