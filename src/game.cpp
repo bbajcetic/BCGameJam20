@@ -180,13 +180,13 @@ bool runGame() {
 
             // If host (player 1), send p1 data and recieve p2
             if (isHost) {
-                sprintf(sendData, "p1.%d.%d.%f", player1.getxPos(),
+                sprintf(sendData, "p1,%d,%d,%f", player1.getxPos(),
                         player1.getyPos(), player1.getAngle());
                 networkUpdate(sendData, recvData, MAXBUFLEN);
             }
             // If not host (player 2), send p2 data and recieve p1
             else {
-                sprintf(sendData, "p2.%d.%d.%f", player2.getxPos(),
+                sprintf(sendData, "p2,%d,%d,%f", player2.getxPos(),
                         player2.getyPos(), player2.getAngle());
                 networkUpdate(sendData, recvData, MAXBUFLEN);
             }
@@ -265,12 +265,12 @@ void updateOpponentState() {
     int newY = 0;
     double newAngle = 0.0;
 
-    char * token = strtok(recvData, ".");
-    token = strtok(NULL, ".");
+    char * token = strtok(recvData, ",");
+    token = strtok(NULL, ",");
     newX = atoi(token);
-    token = strtok(NULL, ".");
+    token = strtok(NULL, ",");
     newY = atoi(token);
-    token = strtok(NULL, ".");
+    token = strtok(NULL, ",");
     newAngle = strtod(token, NULL);
 
     if (isHost) {
