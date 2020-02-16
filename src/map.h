@@ -24,7 +24,8 @@ class Map {
         void loadMap(std::string mapPath);
         void emptyMap();
         // Load map texture
-        void loadMapTexture(std::string mapOverlayPath,
+        void loadMapTexture(std::string mapBackgroundPath,
+                            std::string mapOverlayPath,
                             std::string wallPath,
                             std::string groundPath);
 
@@ -36,6 +37,7 @@ class Map {
 
         void renderMap();
     private:
+        Texture* mapBackground;
         Texture* mapOverlay;
 
         // 0 means walkable, 1 means wall

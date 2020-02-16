@@ -3,6 +3,7 @@
 #include "map.h"
 
     Map::Map() {
+        mapBackground = NULL;
         mapOverlay = NULL;
         tempWall = NULL;
         tempGround = NULL;
@@ -14,6 +15,10 @@
     }
 
     void Map::free() {
+        if (mapBackground != NULL) {
+            mapBackground->free();
+            mapBackground = NULL;
+        }
         if (mapOverlay != NULL) {
             mapOverlay->free();
             mapOverlay = NULL;
@@ -43,9 +48,13 @@
         }
     }
 
-    void Map::loadMapTexture(std::string mapOverlayPath,
+    void Map::loadMapTexture(std::string mapBackgroundPath,
+                            std::string mapOverlayPath,
                             std::string wallPath,
                             std::string groundPath) {
+        mapBackground = new Texture();
+        mapBackground->loadTexture(mapBackgroundPath, 1, 1, 1);
+
         mapOverlay = new Texture();
         mapOverlay->loadTexture(mapOverlayPath, 1, 1, 1);
 
@@ -129,8 +138,10 @@
         int xP = 0;
         int yP = 0;
 
-        // Draw overlay
-        mapOverlay->render(0,0);
+        // Draw background
+        mapBackground->render(0,0);
+
+        // Draw walls and stuff maybe
         for (int i = 0; i < NUM_WIDTH_TILES * NUM_HEIGHT_TILES; i++) {
             xP = TILE_WIDTH * (i%NUM_WIDTH_TILES);
             yP = TILE_HEIGHT * (i/NUM_WIDTH_TILES);
@@ -143,6 +154,8 @@
             else if (mapTiles[i] == 1) {
                 tempWall->render(xP, yP);
             }
-            
         }
+
+        // Draw overlay
+        mapOverlay->render(0,0);
     }

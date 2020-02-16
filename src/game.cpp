@@ -50,11 +50,11 @@ bool runGame() {
     // Temporarily initialize 2 players here
     //Player player1;
     player1.loadTexture("./assets/player1.png", 4, 2, 2);
-    player1.changePosition(0,0);
+    player1.changePosition(100,600);
 
     //Player player2;
     player2.loadTexture("./assets/player2.png", 4, 2, 2);
-    player2.changePosition(1250, 650);
+    player2.changePosition(1100, 600);
 
 //    // Player send and recieve buffers
 //    char sendData[1024] = {0};
@@ -66,8 +66,9 @@ bool runGame() {
 
     Map* arena;
     arena = new Map();
-    arena->loadMap("src/centralv2.map");
+    arena->loadMap("src/ruins_skeleton.map");
     arena->loadMapTexture("./assets/grassworld.png",
+                        "./assets/ruins_overlay.png",
                         "./assets/ruin_rock.png",
                         "./assets/empty.png");
 
@@ -92,14 +93,14 @@ bool runGame() {
                     case SDLK_c:
                         if (currentState == MAIN_MENU) {
                             isHost = false;
-                            Network_initialize(Connection::Client);
+                            //Network_initialize(Connection::Client);
                             currentState = ACTION;
                         }
                         break;
                     case SDLK_h:
                         if (currentState == MAIN_MENU) {
                             isHost = true;
-                            Network_initialize(Connection::Server);
+                            //Network_initialize(Connection::Server);
                             currentState = ACTION;
                         }
                         break;
@@ -177,7 +178,7 @@ bool runGame() {
         }
         // Draw players, map, zones, etc.
         else if (currentState == ACTION) {
-            
+            /*
             // If host (player 1), send p1 data and recieve p2
             if (isHost) {
                 sprintf(sendData, "p1,%d,%d,%f", player1.getxPos(),
@@ -190,7 +191,7 @@ bool runGame() {
                         player2.getyPos(), player2.getAngle());
                 networkUpdate(sendData, recvData, MAXBUFLEN);
             }
-            
+            */
             // Update zone status checking if players are in a zone or not
             zone.updateZone(player1.getPlayerHitBox(), player2.getPlayerHitBox());
 
