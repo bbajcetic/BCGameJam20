@@ -15,7 +15,6 @@
 #include <fcntl.h>
 #include <time.h>
 #include "custom.h"
-#include "server.h"
 
 struct serverInfo {
     int sockfd;
