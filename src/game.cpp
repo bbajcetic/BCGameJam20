@@ -11,11 +11,21 @@
 #include "texture.h"
 #include "player.h"
 #include "map.h"
+#include "timer.h"
 
 bool runGame() {
 
     // Event handler
     SDL_Event e;
+
+    // FPS timer
+    GameTimer fpsTimer;
+    int framesCounter = 0;
+    float avgFPS = 0;
+    fpsTimer.start();
+
+    // Cap FPS
+    GameTimer fpsCapTimer;
 
     // Create temp player for test *******
     Player player1;
@@ -30,6 +40,9 @@ bool runGame() {
                         "./assets/path.png");
 
     while(running) {
+
+        // Start timer to cap fps
+        fpsCapTimer.start();
 
         // Poll events
         while(SDL_PollEvent(&e) != 0) {
@@ -51,6 +64,21 @@ bool runGame() {
         // Update player position based on velocity
         player1.updatePosition(arena);
 
+        // FPS Calculation
+        avgFPS = framesCounter/(fpsTimer.getTicks()/1000.f);
+        if (avgFPS > 2000000) {
+            avgFPS = 0;
+        }
+        framesCounter++;
+
+        if (framesCounter > 60) {
+            printf("Current FPS: %f\n", avgFPS);
+            fpsTimer.stop();
+            fpsTimer.start();
+            framesCounter = 0;
+        }
+
+
         // Clear renderer
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(gRenderer);
@@ -60,6 +88,11 @@ bool runGame() {
 
 		// Update screen
 		SDL_RenderPresent(gRenderer);
-    }
+
+        // Cap fps
+        if (fpsCapTimer.getTicks() < SCREEN_TICKS_PER_FRAME) {
+			SDL_Delay(SCREEN_TICKS_PER_FRAME - fpsCapTimer.getTicks());
+		}
+	}
     return false;
 }

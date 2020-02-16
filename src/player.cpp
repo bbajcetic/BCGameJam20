@@ -96,7 +96,16 @@ void Player::updatePosition(Map* currentMap) {
         playerPositionBox.w = playerWidth;
         playerPositionBox.h = playerHeight;
         if (!currentMap->clearPath(playerPositionBox)) {
+            /*
             mapTileBox = currentMap->getTileRect(currentMap->getTilePos(xPos, yPos));
+            
+            if (xPos + playerWidth > mapTileBox.x) {
+                xPos = mapTileBox.x - playerWidth;
+            }
+            else if (xPos < mapTileBox.x + mapTileBox.w) {
+                //xPos = mapTileBox.x + mapTileBox.w;
+            }
+            */
             xPos -= xVel;
         }
     }
