@@ -5,7 +5,7 @@
 
 #include "texture.h"
 #include "constants.h"
-
+#include "map.h"
 
 class Player {
 public:
@@ -17,7 +17,7 @@ public:
 
 	void changePosition(int x, int y);
     void updateVelocity(SDL_Event& e);
-    void updatePosition();
+    void updatePosition(Map* currentMap);
 
 	void renderPlayer();
 

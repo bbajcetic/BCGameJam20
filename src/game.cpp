@@ -20,14 +20,14 @@ bool runGame() {
     // Create temp player for test *******
     Player player1;
     player1.loadTexture("./assets/character_test.png", 9, 3, 3);
-    player1.changePosition(50,50);
+    player1.changePosition(50,200);
 
-    Map arena;
-    arena.loadMap("src/arena.map");
-    arena.loadMapTexture("./assets/character_test.png",
+    Map* arena;
+    arena = new Map();
+    arena->loadMap("src/arena.map");
+    arena->loadMapTexture("./assets/character_test.png",
                         "./assets/wall.png",
                         "./assets/path.png");
-    printf("sup\n");
 
     while(running) {
 
@@ -49,13 +49,13 @@ bool runGame() {
         }
 
         // Update player position based on velocity
-        player1.updatePosition();
+        player1.updatePosition(arena);
 
         // Clear renderer
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(gRenderer);
 
-        arena.renderMap();
+        arena->renderMap();
         player1.renderPlayer();
 
 		// Update screen

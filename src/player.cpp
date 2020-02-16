@@ -77,11 +77,46 @@ void Player::updateVelocity(SDL_Event& e) {
 }
 
 // Maybe check here for invalid movements?
-void Player::updatePosition() {
+void Player::updatePosition(Map* currentMap) {
+    SDL_Rect playerPositionBox;
+
     xPos += xVel;
-    
+    // Check screen boundaries
+    if (xPos + playerWidth > SCREEN_WIDTH) {
+        xPos = SCREEN_WIDTH - playerWidth;
+    }
+    if (xPos < 0) {
+        xPos = 0;
+    }
+
+    if (currentMap != NULL) {
+        playerPositionBox.x = xPos;
+        playerPositionBox.y = yPos;
+        playerPositionBox.w = playerWidth;
+        playerPositionBox.h = playerHeight;
+        if (!currentMap->clearPath(playerPositionBox)) {
+            xPos -= xVel;
+        }
+    }
 
     yPos += yVel;
+    // Check screen boundaries
+    if (yPos + playerHeight > SCREEN_HEIGHT) {
+        yPos = SCREEN_HEIGHT - playerHeight;
+    }
+    if (yPos < 0) {
+        yPos = 0;
+    }
+    if (currentMap != NULL) {
+        playerPositionBox.x = xPos;
+        playerPositionBox.y = yPos;
+        playerPositionBox.w = playerWidth;
+        playerPositionBox.h = playerHeight;
+        if (!currentMap->clearPath(playerPositionBox)) {
+            yPos -= yVel;
+        }
+    }
+
 }
 
 

@@ -1,6 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <SDL2/SDL.h>
 #include <string>
 
 #include "texture.h"
@@ -26,6 +27,11 @@ class Map {
         void loadMapTexture(std::string mapOverlayPath,
                             std::string wallPath,
                             std::string groundPath);
+
+        bool clearPath(SDL_Rect playerBoxPos);
+
+        int getTile(int xPos, int yPos);
+
         void renderMap();
     private:
         Texture* mapOverlay;

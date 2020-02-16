@@ -51,7 +51,7 @@
 
         tempWall = new Texture();
         tempWall->loadTexture(wallPath, 1, 1, 1);
-        
+
         tempGround = new Texture();
         tempGround->loadTexture(groundPath, 1, 1, 1);
     }
@@ -60,6 +60,50 @@
         for (int i = 0; i < NUM_WIDTH_TILES * NUM_HEIGHT_TILES; i++) {
             mapTiles[i] = 0;
         }
+    }
+
+    bool Map::clearPath(SDL_Rect playerBoxPos) {
+        if (getTile(playerBoxPos.x, playerBoxPos.y) == 1) {
+            return false;
+        }
+        else if (getTile(playerBoxPos.x, playerBoxPos.y + playerBoxPos.h) == 1) {
+            return false;
+        }
+        else if (getTile(playerBoxPos.x + playerBoxPos.w, playerBoxPos.y) == 1) {
+            return false;
+        }
+        else if (getTile(playerBoxPos.x + playerBoxPos.w, playerBoxPos.y + playerBoxPos.h) == 1) {
+            return false;
+        }
+
+        if (playerBoxPos.x + TILE_WIDTH < playerBoxPos.x + playerBoxPos.w) {
+            if (getTile(playerBoxPos.x + TILE_WIDTH, playerBoxPos.y) == 1) {
+                return false;
+            }
+            else if (getTile(playerBoxPos.x + TILE_WIDTH, playerBoxPos.y + playerBoxPos.h) == 1) {
+                return false;
+            }
+        }
+        
+        if (playerBoxPos.y + TILE_HEIGHT < playerBoxPos.y + playerBoxPos.h) {
+            if (getTile(playerBoxPos.x, playerBoxPos.y + TILE_HEIGHT) == 1) {
+                return false;
+            }
+            else if (getTile(playerBoxPos.x + playerBoxPos.w, playerBoxPos.y + TILE_HEIGHT) == 1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    int Map::getTile(int xPos, int yPos) {
+        int tileX = xPos / TILE_WIDTH;
+        int tileY = yPos / TILE_HEIGHT;
+
+        int tilePos = tileX + (tileY * NUM_WIDTH_TILES);
+
+        return mapTiles[tilePos];
     }
 
     void Map::renderMap() {
