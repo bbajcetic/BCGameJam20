@@ -19,16 +19,6 @@
 #define SERVERPORT "4950"	// the port users will be connecting to
 #define MAXBUFLEN 100
 
-// get sockaddr, IPv4 or IPv6:
-void *get_in_addr(struct sockaddr *sa)
-{
-	if (sa->sa_family == AF_INET) {
-		return &(((struct sockaddr_in*)sa)->sin_addr);
-	}
-
-	return &(((struct sockaddr_in6*)sa)->sin6_addr);
-}
-
 void wait(long seconds, long microseconds)
 {
     struct timespec reqDelay = { seconds, microseconds * 1000};
@@ -45,7 +35,7 @@ int main(int argc, char *argv[])
 	struct sockaddr_storage their_addr;
 	char buf[MAXBUFLEN];
     //char* server_ip = "206.87.203.1";
-    char* server_ip = "127.0.0.1";
+    char server_ip[] = "127.0.0.1";
 	socklen_t addr_len;
 	char s[INET6_ADDRSTRLEN];
 
@@ -79,7 +69,7 @@ int main(int argc, char *argv[])
 		return 2;
 	}
 
-    char* first_msg = "connect with me\n";
+    char first_msg[] = "connect with me\n";
 	if ((numbytes = sendto(sockfd, first_msg, strlen(first_msg), 0,
 			 p->ai_addr, p->ai_addrlen)) == -1) {
 		perror("talker: sendto");
@@ -97,21 +87,16 @@ int main(int argc, char *argv[])
 	    if ((numbytes = sendto(sockfd, msg, strlen(msg), 0,
 	    		 p->ai_addr, p->ai_addrlen)) == -1) {
 	    	perror("talker: sendto");
-	    	//exit(1);
 	    }
 	    printf("talker: sent %d bytes\n", numbytes);
 
 	    addr_len = sizeof their_addr;
 	    while ((numbytes = recvfrom(sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&their_addr, &addr_len)) != -1) {
-	        printf("talker: got packet from %s\n", inet_ntop(their_addr.ss_family,
-	        		get_in_addr((struct sockaddr *)&their_addr), s, sizeof s));
-	        printf("talker: packet is %d bytes long\n", numbytes);
 	        buf[numbytes] = '\0';
-	        printf("talker: packet contains \"%s\"\n", buf);
+	        printf("talker: packet = \"%s\"\n", buf);
 	    }
         if (errno != EAGAIN && errno != EWOULDBLOCK) {
 	    	perror("recvfrom");
-	    	//exit(1);
         }
 
         wait(0, 10000);
