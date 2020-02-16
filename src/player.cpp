@@ -42,16 +42,16 @@ void Player::updateVelocity(SDL_Event& e) {
 
         switch( e.key.keysym.sym )
         {
-            case SDLK_UP:
+            case SDLK_w:
                 yVel -= deltaVel;
                 break;
-            case SDLK_DOWN:
+            case SDLK_s:
                 yVel += deltaVel;
                 break;
-            case SDLK_LEFT:
+            case SDLK_a:
                 xVel -= deltaVel;
                 break;
-            case SDLK_RIGHT:
+            case SDLK_d:
                 xVel += deltaVel;
                 break;
         }
@@ -59,16 +59,16 @@ void Player::updateVelocity(SDL_Event& e) {
     else if(e.type == SDL_KEYUP && e.key.repeat == 0) {
         switch( e.key.keysym.sym )
         {
-            case SDLK_UP:
+            case SDLK_w:
                 yVel += deltaVel;
                 break;
-            case SDLK_DOWN:
+            case SDLK_s:
                 yVel -= deltaVel;
                 break;
-            case SDLK_LEFT:
+            case SDLK_a:
                 xVel += deltaVel;
                 break;
-            case SDLK_RIGHT:
+            case SDLK_d:
                 xVel -= deltaVel;
                 break;
         }
