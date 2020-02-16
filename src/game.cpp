@@ -44,7 +44,9 @@ bool runGame() {
     player2.loadTexture("./assets/player2.png", 4, 2, 2);
     player2.changePosition(1250, 650);
 
-
+    // Player send and recieve buffers
+    char sendData[1024] = {0};
+    char recvData[1024] = {0};
 
     // Set current state and init host
     int currentState = MAIN_MENU;
@@ -78,14 +80,14 @@ bool runGame() {
                     case SDLK_c:
                         if (currentState == MAIN_MENU) {
                             isHost = false;
-                            //Network_initialize(Connection::Client);
+                            Network_initialize(Connection::Client);
                             currentState = ACTION;
                         }
                         break;
                     case SDLK_h:
                         if (currentState == MAIN_MENU) {
                             isHost = true;
-                            //Network_initialize(Connection::Server);
+                            Network_initialize(Connection::Server);
                             currentState = ACTION;
                         }
                         break;
@@ -166,7 +168,46 @@ bool runGame() {
 
             // If host (player 1), send p1 data and recieve p2
             if (isHost) {
-                
+                sprintf(sendData, "p1.%d.%d.%f", player1.getxPos(),
+                        player1.getyPos(), player1.getAngle());
+                Network_update(sendData, recvData, strlen(recvData));
+
+                int newX = 0;
+                int newY = 0;
+                double newAngle = 0.0;
+
+                char * token = strtok(recvData, ".");
+                token = strtok(NULL, ".");
+                newX = atoi(token);
+                token = strtok(NULL, ".");
+                newY = atoi(token);
+                token = strtok(NULL, ".");
+                newAngle = strtod(token, NULL);
+
+                player2.changePosition(newX, newY);
+                player2.changeAngle(newAngle);
+
+            }
+            // If not host (player 2), send p2 data and recieve p1
+            else {
+                sprintf(sendData, "p2.%d.%d.%f", player2.getxPos(),
+                        player2.getyPos(), player2.getAngle());
+                Network_update(sendData, recvData, strlen(recvData));
+
+                int newX = 0;
+                int newY = 0;
+                double newAngle = 0.0;
+
+                char * token = strtok(recvData, ".");
+                token = strtok(NULL, ".");
+                newX = atoi(token);
+                token = strtok(NULL, ".");
+                newY = atoi(token);
+                token = strtok(NULL, ".");
+                newAngle = strtod(token, NULL);
+
+                player1.changePosition(newX, newY);
+                player1.changeAngle(newAngle);
             }
 
             arena->renderMap();

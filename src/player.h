@@ -37,6 +37,7 @@ public:
 
     int getxPos() {return xPos;}
     int getyPos() {return yPos;}
+    double getAngle() {return angle;}
 
     // Get center values
     float getCenterX() {return float(xPos) + float(playerWidth)/2.0;}
