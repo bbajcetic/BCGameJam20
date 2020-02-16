@@ -11,5 +11,7 @@ void Client_initialize();
 void Client_connect();
 int Client_send(char* msg);
 int Client_receive(char* buf, int recv_size);
+void Client_clean();
+
 
 #endif

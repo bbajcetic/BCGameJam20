@@ -84,44 +84,6 @@ int Client_send(char* buf) {
     return numbytes;
 }
 
-int main(int argc, char *argv[])
-{
-    Client_initialize();
-
-    Client_connect();
-
-
-
-    int msg_no = 0;
-
-	int numbytes;
-
-    while (true) {
-	    char buf[MAXBUFLEN] = {0};
-        msg_no++;
-        char msg[1024] = {0};
-        strcpy(msg, "Hello from client ");
-        snprintf(msg+strlen(msg), 1024, "%d\n", msg_no);
-        msg[strlen(msg)] = '\0';
-        printf("Sending: %s\n", msg);
-
-	    if ((numbytes = Client_send(msg)) == -1) {
-	    	perror("talker: sendto");
-	    }
-
-        while (Client_receive(buf, MAXBUFLEN) != -1) {
-	        buf[numbytes] = '\0';
-	        printf("Receiving: %s\n", buf);
-	    }
-        if (errno != EAGAIN && errno != EWOULDBLOCK) {
-	    	perror("recvfrom");
-        }
-
-        wait(0, 10000);
-
-    }
-
-	close(connection.sockfd);
-
-	return 0;
+void Client_clean() {
+    close(connection.sockfd);
 }
