@@ -20,11 +20,11 @@ bool runGame() {
     // Create temp player for test *******
     Player player1;
     player1.loadTexture("./assets/character_test.png", 9, 3, 3);
-    player1.changePosition(50,200);
+    player1.changePosition(0,0);
 
     Map* arena;
     arena = new Map();
-    arena->loadMap("src/central.map");
+    arena->loadMap("src/centralv2.map");
     arena->loadMapTexture("./assets/character_test.png",
                         "./assets/wall.png",
                         "./assets/path.png");
