@@ -68,7 +68,7 @@ bool runGame() {
     arena = new Map();
     arena->loadMap("src/centralv2.map");
     arena->loadMapTexture("./assets/grassworld.png",
-                        "./assets/ruin_rock.png",
+                        "./assets/water.png",
                         "./assets/empty.png");
 
     Zone zone;
