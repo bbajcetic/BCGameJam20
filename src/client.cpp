@@ -25,8 +25,8 @@ static struct clientInfo connection;
 
 void Client_initialize() {
 	struct addrinfo *p, hints, *servinfo;
-    strcpy(connection.server_ip, "127.0.0.1");
-    //strcpy(connection.server_ip, "206.87.203.1");
+    //strcpy(connection.server_ip, "127.0.0.1");
+    strcpy(connection.server_ip, "206.87.203.1");
 
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_UNSPEC;
