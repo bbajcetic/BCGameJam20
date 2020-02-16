@@ -112,7 +112,7 @@ int main(void)
 	    if ((numbytes = sendto(sockfd, msg, strlen(msg), 0,
 	    		 (const struct sockaddr *)&their_addr, sizeof(their_addr)/*p->ai_addr, p->ai_addrlen*/)) == -1) {
 	    	perror("listener: sendto");
-	    	exit(1);
+	    	//exit(1);
 	    }
 
 	    printf("listener: sent %d bytes\n", numbytes);

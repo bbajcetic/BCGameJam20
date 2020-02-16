@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 	if ((numbytes = sendto(sockfd, first_msg, strlen(first_msg), 0,
 			 p->ai_addr, p->ai_addrlen)) == -1) {
 		perror("talker: sendto");
-		exit(1);
+		//exit(1);
 	}
 
     int msg_no = 0;
