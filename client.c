@@ -14,6 +14,7 @@
 #include <netdb.h>
 #include <stdbool.h>
 #include <fcntl.h>
+#include <time.h>
 
 #define SERVERPORT "4950"	// the port users will be connecting to
 #define MAXBUFLEN 100
@@ -27,6 +28,13 @@ void *get_in_addr(struct sockaddr *sa)
 
 	return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
+
+void wait(long seconds, long microseconds)
+{
+    struct timespec reqDelay = { seconds, microseconds * 1000};
+    nanosleep(&reqDelay, (struct timespec*) NULL);
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -84,7 +92,7 @@ int main(int argc, char *argv[])
         char msg[1024];
         strcpy(msg, "Hello from client ");
         snprintf(msg+strlen(msg), 1024, "%d\n", msg_no);
-        printf("About to send %s\n", msg);
+        printf("About to send: %s\n", msg);
 
 	    if ((numbytes = sendto(sockfd, msg, strlen(msg), 0,
 	    		 p->ai_addr, p->ai_addrlen)) == -1) {
@@ -106,6 +114,7 @@ int main(int argc, char *argv[])
 	    	//exit(1);
         }
 
+        wait(0, 4000);
 
     }
 

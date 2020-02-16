@@ -14,6 +14,7 @@
 #include <netdb.h>
 #include <stdbool.h>
 #include <fcntl.h>
+#include <time.h>
 
 #define MYPORT "4950"	// the port users will be connecting to
 
@@ -28,6 +29,14 @@ void *get_in_addr(struct sockaddr *sa)
 
 	return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
+
+void wait(long seconds, long microseconds)
+{
+    struct timespec reqDelay = { seconds, microseconds * 1000};
+    nanosleep(&reqDelay, (struct timespec*) NULL);
+}
+
+
 
 int main(void)
 {
@@ -94,7 +103,7 @@ int main(void)
         char msg[1024];
         strcpy(msg, "Hello from server ");
         snprintf(msg+strlen(msg), 1024, "%d\n", msg_no);
-        printf("About to send %s\n", msg);
+        printf("About to send: %s\n", msg);
 
 	    while ((numbytes = recvfrom(sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&temp, &temp_len)) != -1) {
 	        printf("listener: got packet from %s\n", inet_ntop(their_addr.ss_family, 
@@ -116,6 +125,8 @@ int main(void)
 	    }
 
 	    printf("listener: sent %d bytes\n", numbytes);
+
+        wait(0, 4000);
     }
 
 
