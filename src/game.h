@@ -7,5 +7,7 @@ extern SDL_Texture* gCurrentTexture;
 extern bool running;
 
 bool runGame();
+void networkUpdate(char* send_buf, char* recv_buf, int recv_size);
+void updateOpponentState();
 
 #endif

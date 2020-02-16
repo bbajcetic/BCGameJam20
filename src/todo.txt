@@ -1,0 +1,2 @@
+-Make the connecting method that connects server to client tcp or somehow reliable because if the packet doesn't go through you have to rerun the program or rehost
+-Check which libraries you can remove (there are so many in the networking modules)

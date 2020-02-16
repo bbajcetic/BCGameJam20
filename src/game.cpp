@@ -21,6 +21,16 @@ enum GameState {
     ACTION
 };
 
+// Player send and recieve buffers
+char sendData[1024] = {0};
+char recvData[1024] = {0};
+
+// Set current state and init host
+int currentState = MAIN_MENU;
+bool isHost = false;
+Player player1;
+Player player2;
+
 bool runGame() {
 
     // Event handler
@@ -36,21 +46,21 @@ bool runGame() {
     GameTimer fpsCapTimer;
 
     // Temporarily initialize 2 players here
-    Player player1;
+    //Player player1;
     player1.loadTexture("./assets/player1.png", 4, 2, 2);
     player1.changePosition(0,0);
 
-    Player player2;
+    //Player player2;
     player2.loadTexture("./assets/player2.png", 4, 2, 2);
     player2.changePosition(1250, 650);
 
-    // Player send and recieve buffers
-    char sendData[1024] = {0};
-    char recvData[1024] = {0};
-
-    // Set current state and init host
-    int currentState = MAIN_MENU;
-    bool isHost = false;
+//    // Player send and recieve buffers
+//    char sendData[1024] = {0};
+//    char recvData[1024] = {0};
+//
+//    // Set current state and init host
+//    int currentState = MAIN_MENU;
+//    bool isHost = false;
 
     Map* arena;
     arena = new Map();
@@ -170,44 +180,13 @@ bool runGame() {
             if (isHost) {
                 sprintf(sendData, "p1.%d.%d.%f", player1.getxPos(),
                         player1.getyPos(), player1.getAngle());
-                Network_update(sendData, recvData, strlen(recvData));
-
-                int newX = 0;
-                int newY = 0;
-                double newAngle = 0.0;
-
-                char * token = strtok(recvData, ".");
-                token = strtok(NULL, ".");
-                newX = atoi(token);
-                token = strtok(NULL, ".");
-                newY = atoi(token);
-                token = strtok(NULL, ".");
-                newAngle = strtod(token, NULL);
-
-                player2.changePosition(newX, newY);
-                player2.changeAngle(newAngle);
-
+                networkUpdate(sendData, recvData, strlen(recvData));
             }
             // If not host (player 2), send p2 data and recieve p1
             else {
                 sprintf(sendData, "p2.%d.%d.%f", player2.getxPos(),
                         player2.getyPos(), player2.getAngle());
-                Network_update(sendData, recvData, strlen(recvData));
-
-                int newX = 0;
-                int newY = 0;
-                double newAngle = 0.0;
-
-                char * token = strtok(recvData, ".");
-                token = strtok(NULL, ".");
-                newX = atoi(token);
-                token = strtok(NULL, ".");
-                newY = atoi(token);
-                token = strtok(NULL, ".");
-                newAngle = strtod(token, NULL);
-
-                player1.changePosition(newX, newY);
-                player1.changeAngle(newAngle);
+                networkUpdate(sendData, recvData, strlen(recvData));
             }
 
             arena->renderMap();
@@ -226,4 +205,71 @@ bool runGame() {
 		}
 	}
     return false;
+}
+
+/*
+Call this function to share information with the other player.
+    send_buf: char* full of your player's information
+    recv_buf: empty char* to fill with other player's information(set buffer to null beforehand)
+    recv_size: max buffer size of information to receive from other player
+*/
+void networkUpdate(char* send_buf, char* recv_buf, int recv_size) {
+    int numbytes;
+    if (isHost) {
+        //receive
+        while ((numbytes = Server_receive(recv_buf, recv_size)) != -1) {
+            recv_buf[numbytes] = '\0';
+            updateOpponentState();
+        }
+        if (errno != EAGAIN && errno != EWOULDBLOCK) {
+	    	perror("recvfrom");
+        }
+
+        //send
+        if ((numbytes = Server_send(send_buf)) == -1) {
+	    	perror("listener: sendto");
+	    }
+    }
+    else {
+        //send
+	    if ((numbytes = Client_send(send_buf)) == -1) {
+	    	perror("talker: sendto");
+	    }
+
+        //receive
+        while ((numbytes = Client_receive(recv_buf, recv_size)) != -1) {
+	        recv_buf[numbytes] = '\0';
+            updateOpponentState();
+	    }
+        if (errno != EAGAIN && errno != EWOULDBLOCK) {
+	    	perror("recvfrom");
+        }
+    }
+}
+
+void updateOpponentState() {
+    /* I Don't think we should do it this way,*
+     * So I wanna talk with you how we should.*/
+    
+    // get postion for p2 from data recieves and apply it
+    int newX = 0;
+    int newY = 0;
+    double newAngle = 0.0;
+
+    char * token = strtok(recvData, ".");
+    token = strtok(NULL, ".");
+    newX = atoi(token);
+    token = strtok(NULL, ".");
+    newY = atoi(token);
+    token = strtok(NULL, ".");
+    newAngle = strtod(token, NULL);
+
+    if (isHost) {
+        player2.changePosition(newX, newY);
+        player2.changeAngle(newAngle);
+    }
+    else {
+        player1.changePosition(newX, newY);
+        player1.changeAngle(newAngle);
+    }
 }
