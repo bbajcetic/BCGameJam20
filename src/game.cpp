@@ -224,6 +224,7 @@ void networkUpdate(char* send_buf, char* recv_buf, int recv_size) {
         //receive
         while ((numbytes = Server_receive(recv_buf, recv_size)) != -1) {
             recv_buf[numbytes] = '\0';
+            printf("Received data: %s\n", recv_buf);
             updateOpponentState();
         }
         if (errno != EAGAIN && errno != EWOULDBLOCK) {
@@ -231,12 +232,14 @@ void networkUpdate(char* send_buf, char* recv_buf, int recv_size) {
         }
 
         //send
+        printf("Sending data: %s\n", send_buf);
         if ((numbytes = Server_send(send_buf)) == -1) {
 	    	perror("listener: sendto");
 	    }
     }
     else {
         //send
+        printf("Sending data: %s\n", send_buf);
 	    if ((numbytes = Client_send(send_buf)) == -1) {
 	    	perror("talker: sendto during game");
 	    }
@@ -244,6 +247,7 @@ void networkUpdate(char* send_buf, char* recv_buf, int recv_size) {
         //receive
         while ((numbytes = Client_receive(recv_buf, recv_size)) != -1) {
 	        recv_buf[numbytes] = '\0';
+            printf("Received data: %s\n", recv_buf);
             updateOpponentState();
 	    }
         if (errno != EAGAIN && errno != EWOULDBLOCK) {
