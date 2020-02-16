@@ -79,7 +79,7 @@ void Server_connect() {
 
 int Server_receive(char* buf, int max_buf) {
 	struct sockaddr_storage temp;
-    socklen_t temp_len;
+    socklen_t temp_len = sizeof(temp);
 	int numbytes = recvfrom(connection.sockfd, buf, max_buf-1 , 0, (struct sockaddr *)&temp, &temp_len);
     return numbytes;
 }
