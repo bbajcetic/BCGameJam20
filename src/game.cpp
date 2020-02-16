@@ -235,7 +235,7 @@ void networkUpdate(char* send_buf, char* recv_buf, int recv_size) {
     else {
         //send
 	    if ((numbytes = Client_send(send_buf)) == -1) {
-	    	perror("talker: sendto");
+	    	perror("talker: sendto during game");
 	    }
 
         //receive

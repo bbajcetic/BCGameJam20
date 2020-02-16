@@ -67,7 +67,7 @@ void Client_connect() {
 	int numbytes;
 	if ((numbytes = sendto(connection.sockfd, first_msg, strlen(first_msg), 0,
 			 connection.netInfo->ai_addr, connection.netInfo->ai_addrlen)) == -1) {
-		perror("talker: sendto");
+		perror("talker: sendto during connect");
 	}
 }
 
