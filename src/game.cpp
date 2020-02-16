@@ -67,9 +67,9 @@ bool runGame() {
     Map* arena;
     arena = new Map();
     arena->loadMap("src/centralv2.map");
-    arena->loadMapTexture("./assets/character_test.png",
-                        "./assets/wall.png",
-                        "./assets/path.png");
+    arena->loadMapTexture("./assets/grassworld.png",
+                        "./assets/ruin_rock.png",
+                        "./assets/empty.png");
 
     Zone zone;
     zone.loadZoneTexture("./assets/zoneR.png");
