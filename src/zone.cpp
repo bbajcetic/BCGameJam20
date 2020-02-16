@@ -27,6 +27,7 @@
     void Zone::loadZoneTexture(std::string zonePath) {
         zoneTexture = new Texture();
         zoneTexture->loadTexture(zonePath, 1, 1, 1);
+        SDL_SetTextureAlphaMod(zoneTexture->getTexture(), Uint8(100));
     }   
 
     void Zone::changePosition(int x, int y) {
@@ -51,6 +52,5 @@
     }
 
     void Zone::renderZone() {
-        SDL_SetTextureAlphaMod(zoneTexture->getTexture(), Uint8(100));
-        zoneTexture->render(xPos, yPos, &zoneHitBox);
+        zoneTexture->render(xPos, yPos, NULL, &zoneHitBox);
     }

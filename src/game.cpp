@@ -42,7 +42,8 @@ bool runGame() {
 
     Zone zone;
     zone.loadZoneTexture("./assets/zoneR.png");
-    zone.changeZoneDimensions(50, 32);
+    zone.changeZoneDimensions(150, 150);
+    zone.changePosition(SCREEN_WIDTH/2 - 75, 50);
 
     while(running) {
 
