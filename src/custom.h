@@ -3,4 +3,6 @@
 
 void wait(long seconds, long microseconds);
 
+float findAngle(float adjacent, float opposite);
+
 #endif

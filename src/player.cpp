@@ -1,4 +1,5 @@
 #include "player.h"
+#include "custom.h"
 
 Player::Player() {
     playerTexture = NULL;
@@ -11,8 +12,15 @@ Player::Player() {
     xPos = 0;
     yPos = 0;
 
+    angle = 0.0;
+
     xVel = 0;
     yVel = 0;
+
+    isMoving = false;
+
+    tickCount = 0;
+    currentFrame = 0;
 }
 
 Player::~Player() {
@@ -39,7 +47,6 @@ void Player::changePosition(int x, int y) {
 
 void Player::updateVelocity(SDL_Event& e) {
     if(e.type == SDL_KEYDOWN && e.key.repeat == 0) {
-
         switch( e.key.keysym.sym )
         {
             case SDLK_w:
@@ -57,6 +64,7 @@ void Player::updateVelocity(SDL_Event& e) {
         }
     }
     else if(e.type == SDL_KEYUP && e.key.repeat == 0) {
+        //isMoving = false;
         switch( e.key.keysym.sym )
         {
             case SDLK_w:
@@ -73,7 +81,21 @@ void Player::updateVelocity(SDL_Event& e) {
                 break;
         }
     }
+    // Check if any move key pressed, set to moving
+    if(e.type == SDL_KEYDOWN && e.key.repeat == 0) {
+        if (e.key.keysym.sym == SDLK_w || e.key.keysym.sym == SDLK_s ||
+            e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_d) {
+            isMoving = true;
+        }
+    }
 
+    // Check if no moving keys are pressed
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    if ((!state[SDL_SCANCODE_W] && !state[SDL_SCANCODE_S] &&
+          !state[SDL_SCANCODE_A] && !state[SDL_SCANCODE_D])) {
+        isMoving = false;
+        currentFrame = 0;
+    }
 }
 
 // Maybe check here for invalid movements?
@@ -134,11 +156,39 @@ void Player::updatePosition(Map* currentMap) {
 // Render player, update to render a specific clip of the player sprite
 void Player::renderPlayer() {
 	SDL_Rect spriteQuad;
-
+    
 	spriteQuad.w = playerWidth;
 	spriteQuad.h = playerHeight;
-    spriteQuad.x = 0;
-	spriteQuad.y = 0;
 
-	playerTexture->render(xPos, yPos, &spriteQuad);
+    spriteQuad.x = (currentFrame % playerTexture->getRow()) * playerWidth;
+	spriteQuad.y = (currentFrame / playerTexture->getCol()) * playerHeight;
+
+	playerTexture->render(xPos, yPos, &spriteQuad, NULL, angle);
 }
+
+// Increment the frame for which frame to render
+void Player::incFrame() {
+    tickCount++;
+    if (tickCount > 6) {
+        currentFrame++;
+        if (currentFrame >= playerTexture->getFrames()) {
+            currentFrame = 0;
+        }
+		tickCount = 0;
+	}
+    
+}
+
+void Player::turn(int x, int y) {
+
+    printf("mouse at %d, %d\n", x, y);
+    printf("player center at %f, %f\n", getCenterX(), getCenterY());
+    float to_x = x - getCenterX();
+    float to_y = y - getCenterY();
+
+    float new_angle = findAngle(to_x, to_y);
+
+    angle = double(new_angle * 180.0/PI) + 270.0;
+    printf("%f\n", angle);
+}
+

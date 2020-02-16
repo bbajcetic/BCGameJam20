@@ -29,7 +29,7 @@ bool runGame() {
 
     // Create temp player for test *******
     Player player1;
-    player1.loadTexture("./assets/character_test.png", 9, 3, 3);
+    player1.loadTexture("./assets/player1.png", 4, 2, 2);
     player1.changePosition(0,0);
 
     Map* arena;
@@ -56,6 +56,11 @@ bool runGame() {
                         break;
                 }
             }
+            else if (e.type == SDL_MOUSEMOTION) {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+                player1.turn(x, y);
+            }
 
             // Player movement handler
             player1.updateVelocity(e);
@@ -78,6 +83,10 @@ bool runGame() {
             framesCounter = 0;
         }
 
+        // Increment player frame
+        if (player1.getIsMoving()) {
+            player1.incFrame();
+        }
 
         // Clear renderer
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
