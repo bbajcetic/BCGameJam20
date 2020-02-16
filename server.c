@@ -105,17 +105,17 @@ int main(void)
 	    }
         if (errno != EAGAIN && errno != EWOULDBLOCK) {
 	    	perror("recvfrom");
-	    	exit(1);
+	    	//exit(1);
         }
 
 
 	    if ((numbytes = sendto(sockfd, msg, strlen(msg), 0,
 	    		 (const struct sockaddr *)&their_addr, sizeof(their_addr)/*p->ai_addr, p->ai_addrlen*/)) == -1) {
-	    	perror("talker: sendto");
+	    	perror("listener: sendto");
 	    	exit(1);
 	    }
 
-	    printf("talker: sent %d bytes\n", numbytes);
+	    printf("listener: sent %d bytes\n", numbytes);
     }
 
 
