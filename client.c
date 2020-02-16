@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 	    if ((numbytes = sendto(sockfd, msg, strlen(msg), 0,
 	    		 p->ai_addr, p->ai_addrlen)) == -1) {
 	    	perror("talker: sendto");
-	    	exit(1);
+	    	//exit(1);
 	    }
 	    printf("talker: sent %d bytes\n", numbytes);
 
