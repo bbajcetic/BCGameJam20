@@ -8,6 +8,7 @@ enum class Connection { Server, Client };
 
 void Network_initialize(Connection connection_type);
 void Network_chooseHost();
+void Network_clean();
 
 #endif
 

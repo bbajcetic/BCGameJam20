@@ -8,6 +8,7 @@
 
 #include "constants.h"
 #include "game.h"
+#include "network.h"
 
 
 /* Functions */
@@ -40,6 +41,7 @@ int main(int argc, char *argv[]) {
         printf("Game ending\n");
     }
 
+    Network_clean();
     quitSDL();
     return 0;
 }

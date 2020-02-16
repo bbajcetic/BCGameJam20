@@ -48,3 +48,13 @@ void Network_chooseHost() {
             break;
     }
 }
+void Network_clean() {
+    switch( connectionType ) {
+        case Connection::Server:
+            Server_clean();
+            break;
+        case Connection::Client:
+            Client_clean();
+            break;
+    }
+}
