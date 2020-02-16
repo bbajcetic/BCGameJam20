@@ -12,6 +12,7 @@
 #include "player.h"
 #include "map.h"
 #include "timer.h"
+#include "zone.h"
 
 bool runGame() {
 
@@ -38,6 +39,10 @@ bool runGame() {
     arena->loadMapTexture("./assets/character_test.png",
                         "./assets/wall.png",
                         "./assets/path.png");
+
+    Zone zone;
+    zone.loadZoneTexture("./assets/zoneR.png");
+    zone.changeZoneDimensions(50, 32);
 
     while(running) {
 
@@ -77,7 +82,7 @@ bool runGame() {
         framesCounter++;
 
         if (framesCounter > 60) {
-            printf("Current FPS: %f\n", avgFPS);
+            //printf("Current FPS: %f\n", avgFPS);
             fpsTimer.stop();
             fpsTimer.start();
             framesCounter = 0;
@@ -94,6 +99,7 @@ bool runGame() {
 
         arena->renderMap();
         player1.renderPlayer();
+        zone.renderZone();
 
 		// Update screen
 		SDL_RenderPresent(gRenderer);

@@ -1,5 +1,5 @@
 #OBJS specifies files to compile
-OBJS = src/main.o src/game.o src/texture.o src/player.o src/map.o src/custom.o src/timer.o
+OBJS = src/main.o src/game.o src/texture.o src/player.o src/map.o src/custom.o src/timer.o src/zone.o
 
 #CC specifies compiler
 CC = g++
@@ -20,9 +20,10 @@ all: $(OBJS)
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 
 src/main.o: $(HEADERS) src/game.h
-src/game.o: $(HEADERS) src/texture.h src/map.h src/player.h src/timer.h
+src/game.o: $(HEADERS) src/texture.h src/map.h src/player.h src/timer.h src/zone.h
 src/texture.o: $(HEADERS)
 src/player.o: $(HEADERS) src/texture.h
 src/map.o: $(HEADERS) src/texture.h
 src/custom.o: $(HEADERS)
 src/timer.o: $(HEADERS)
+src/zone.o: $(HEADERS)

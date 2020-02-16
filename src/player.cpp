@@ -181,14 +181,14 @@ void Player::incFrame() {
 
 void Player::turn(int x, int y) {
 
-    printf("mouse at %d, %d\n", x, y);
-    printf("player center at %f, %f\n", getCenterX(), getCenterY());
+    //printf("mouse at %d, %d\n", x, y);
+    //printf("player center at %f, %f\n", getCenterX(), getCenterY());
     float to_x = x - getCenterX();
     float to_y = y - getCenterY();
 
     float new_angle = findAngle(to_x, to_y);
 
     angle = double(new_angle * 180.0/PI) + 270.0;
-    printf("%f\n", angle);
+    //printf("%f\n", angle);
 }
 

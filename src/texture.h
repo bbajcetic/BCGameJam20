@@ -34,6 +34,9 @@ public:
 	int getRow();
 	int getCol();
 
+    // Get texture file
+    SDL_Texture* getTexture() {return gTexture;}
+
 private:
 	// Texture
 	SDL_Texture* gTexture;
