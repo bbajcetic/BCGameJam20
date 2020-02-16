@@ -21,6 +21,8 @@ enum GameState {
     ACTION
 };
 
+#define MAXBUFLEN 100
+
 // Player send and recieve buffers
 char sendData[1024] = {0};
 char recvData[1024] = {0};
@@ -180,13 +182,13 @@ bool runGame() {
             if (isHost) {
                 sprintf(sendData, "p1.%d.%d.%f", player1.getxPos(),
                         player1.getyPos(), player1.getAngle());
-                networkUpdate(sendData, recvData, strlen(recvData));
+                networkUpdate(sendData, recvData, MAXBUFLEN);
             }
             // If not host (player 2), send p2 data and recieve p1
             else {
                 sprintf(sendData, "p2.%d.%d.%f", player2.getxPos(),
                         player2.getyPos(), player2.getAngle());
-                networkUpdate(sendData, recvData, strlen(recvData));
+                networkUpdate(sendData, recvData, MAXBUFLEN);
             }
 
             arena->renderMap();
