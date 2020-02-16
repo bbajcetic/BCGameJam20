@@ -9,6 +9,7 @@
 #include "constants.h"
 #include "game.h"
 
+
 /* Functions */
 
 // Initialize SDL
@@ -28,6 +29,20 @@ SDL_Renderer* gRenderer = NULL;
 
 // Game loop
 bool running = true;
+
+int main(int argc, char *argv[]) {
+    if (!initSDL()) {
+        printf("Initialization failed!\n");
+    }
+    else {
+        // Game loop
+        runGame();
+        printf("Game ending\n");
+    }
+
+    quitSDL();
+    return 0;
+}
 
 
 /* Function Definitions */
@@ -93,18 +108,4 @@ void quitSDL() {
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
-}
-
-int main(int argc, char *argv[]) {
-    if (!initSDL()) {
-        printf("Initialization failed!\n");
-    }
-    else {
-        // Game loop
-        runGame();
-        printf("Game ending\n");
-    }
-
-    quitSDL();
-    return 0;
 }
