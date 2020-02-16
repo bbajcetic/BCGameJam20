@@ -126,7 +126,7 @@ int main(void)
 
 	    printf("listener: sent %d bytes\n", numbytes);
 
-        wait(0, 4000);
+        wait(0, 10000);
     }
 
 

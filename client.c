@@ -44,8 +44,8 @@ int main(int argc, char *argv[])
 	int numbytes;
 	struct sockaddr_storage their_addr;
 	char buf[MAXBUFLEN];
-    char* server_ip = "206.87.203.1";
-    //char* server_ip = "127.0.0.1";
+    //char* server_ip = "206.87.203.1";
+    char* server_ip = "127.0.0.1";
 	socklen_t addr_len;
 	char s[INET6_ADDRSTRLEN];
 
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
 	    	//exit(1);
         }
 
-        wait(0, 4000);
+        wait(0, 10000);
 
     }
 
