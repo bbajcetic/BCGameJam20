@@ -16,21 +16,14 @@
 #include <fcntl.h>
 #include <time.h>
 #include "custom.h"
+#include "client.h"
 
 #define SERVERPORT "4950"	// the port users will be connecting to
 #define MAXBUFLEN 100
 
-struct networkInfo {
-    int sockfd;
-    struct addrinfo* netInfo;
-    char server_ip[20];
-};
-struct networkInfo connection;
+static struct networkInfo connection;
 
-void initialize();
-void connect();
-
-void initialize() {
+void Client_initialize() {
 	struct addrinfo *p, hints, *servinfo;
     strcpy(connection.server_ip, "127.0.0.1");
     //strcpy(connection.server_ip, "206.87.203.1");
@@ -68,7 +61,8 @@ void initialize() {
 	}
     connection.netInfo = p;
 }
-void connect() {
+
+void Client_connect() {
     char first_msg[] = "Sending connection request\n";
 	int numbytes;
 	if ((numbytes = sendto(connection.sockfd, first_msg, strlen(first_msg), 0,
@@ -92,9 +86,9 @@ int Client_send(char* buf) {
 
 int main(int argc, char *argv[])
 {
-    initialize();
+    Client_initialize();
 
-    connect();
+    Client_connect();
 
 
     int msg_no = 0;
