@@ -69,6 +69,7 @@ void Client_connect() {
 			 connection.netInfo->ai_addr, connection.netInfo->ai_addrlen)) == -1) {
 		perror("talker: sendto during connect");
 	}
+    printf("Sent: %s\n", first_msg);
 }
 
 int Client_receive(char* buf, int max_buf) {

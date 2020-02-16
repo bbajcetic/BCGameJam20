@@ -74,6 +74,7 @@ void Server_connect() {
     do {
         numbytes = recvfrom(connection.sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&connection.client_addr, &addr_len);
     } while(numbytes == -1);
+    printf("Received: %s\n", buf);
 }
 
 int Server_receive(char* buf, int max_buf) {
