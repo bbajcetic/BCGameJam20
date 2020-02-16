@@ -45,6 +45,11 @@ void Player::changePosition(int x, int y) {
 	yPos = y;
 }
 
+void Player::changeAngle(double a) {
+    angle = a;
+}
+
+
 void Player::updateVelocity(SDL_Event& e) {
     if(e.type == SDL_KEYDOWN && e.key.repeat == 0) {
         switch( e.key.keysym.sym )

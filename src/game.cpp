@@ -35,11 +35,19 @@ bool runGame() {
     // Cap FPS
     GameTimer fpsCapTimer;
 
-    // Create temp player for test *******
+    // Temporarily initialize 2 players here
     Player player1;
     player1.loadTexture("./assets/player1.png", 4, 2, 2);
     player1.changePosition(0,0);
 
+    Player player2;
+    player2.loadTexture("./assets/player2.png", 4, 2, 2);
+    player2.changePosition(1250, 650);
+
+
+
+    // Set current state and init host
+    int currentState = MAIN_MENU;
     bool isHost = false;
 
     Map* arena;
@@ -68,25 +76,45 @@ bool runGame() {
                         running = false;
                         break;
                     case SDLK_c:
+                        if (currentState == MAIN_MENU) {
+                            isHost = false;
+                            //Network_initialize(Connection::Client);
+                            currentState = ACTION;
+                        }
                         break;
                     case SDLK_h:
+                        if (currentState == MAIN_MENU) {
+                            isHost = true;
+                            //Network_initialize(Connection::Server);
+                            currentState = ACTION;
+                        }
                         break;
                     default:
                         break;
                 }
             }
             else if (e.type == SDL_MOUSEMOTION) {
-                int x, y;
-                SDL_GetMouseState(&x, &y);
-                player1.turn(x, y);
+                if (currentState == ACTION) {
+                        int x, y;
+                        SDL_GetMouseState(&x, &y);
+                    if (isHost) {
+                        player1.turn(x, y);
+                    }
+                    else {
+                        player2.turn(x, y);
+                    }
+                }
             }
-
             // Player movement handler
-            player1.updateVelocity(e);
+            if (currentState == ACTION) {
+                if (isHost) {
+                    player1.updateVelocity(e);
+                }
+                else {
+                    player2.updateVelocity(e);
+                }
+            }
         }
-
-        // Update player position based on velocity
-        player1.updatePosition(arena);
 
         // FPS Calculation
         avgFPS = framesCounter/(fpsTimer.getTicks()/1000.f);
@@ -102,18 +130,51 @@ bool runGame() {
             framesCounter = 0;
         }
 
-        // Increment player frame
-        if (player1.getIsMoving()) {
-            player1.incFrame();
+        // Update player positions and frames if in ACTION state
+        if (currentState == ACTION) {
+            if (isHost) {
+                // Update player position based on velocity
+                player1.updatePosition(arena);
+
+                // Increment player frame
+                if (player1.getIsMoving()) {
+                    player1.incFrame();
+                }
+            }
+            else {
+                // Update player position based on velocity
+                player2.updatePosition(arena);
+
+                // Increment player frame
+                if (player2.getIsMoving()) {
+                    player2.incFrame();
+                }
+            }
         }
 
         // Clear renderer
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(gRenderer);
 
-        arena->renderMap();
-        player1.renderPlayer();
-        zone.renderZone();
+
+        // Draw menu screen
+        if (currentState == MAIN_MENU) {
+
+        }
+        // Draw players, map, zones, etc.
+        else if (currentState == ACTION) {
+
+            // If host (player 1), send p1 data and recieve p2
+            if (isHost) {
+                
+            }
+
+            arena->renderMap();
+            player1.renderPlayer();
+            player2.renderPlayer();
+            zone.renderZone();
+        }
+        
 
 		// Update screen
 		SDL_RenderPresent(gRenderer);
