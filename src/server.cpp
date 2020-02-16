@@ -28,7 +28,12 @@ struct networkInfo {
 };
 struct networkInfo connection;
 
-void connect() {
+void initialize();
+void connect();
+int Server_receive(char* buf, int max_buf);
+int Server_send(char* buf);
+
+void initialize() {
 	struct addrinfo *p, hints, *servinfo;
 
 	memset(&hints, 0, sizeof hints);
@@ -70,47 +75,60 @@ void connect() {
 	}
 }
 
-int main(void)
-{
-    connect();
-
+void connect() {
 	char buf[MAXBUFLEN];
-
 	socklen_t addr_len = sizeof(connection.client_addr);
+    int numbytes;
     //get client's address info
-	int numbytes;
     do {
         numbytes = recvfrom(connection.sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&connection.client_addr, &addr_len);
     } while(numbytes == -1);
+}
+
+int Server_receive(char* buf, int max_buf) {
+	struct sockaddr_storage temp;
+    socklen_t temp_len;
+	int numbytes = recvfrom(connection.sockfd, buf, max_buf-1 , 0, (struct sockaddr *)&temp, &temp_len);
+    return numbytes;
+}
+
+int Server_send(char* buf) {
+    int numbytes = sendto(connection.sockfd, buf, strlen(buf), 0, 
+            (const struct sockaddr *)&connection.client_addr, sizeof(connection.client_addr));
+    return numbytes;
+}
+
+int main(void)
+{
+    initialize();
+
+    connect();
 
     int msg_no = 0;
 
+	char buf[MAXBUFLEN];
     char msg[1024];
+	int numbytes;
     strcpy(msg, "Hello from server ");
     snprintf(msg+strlen(msg), 1024, "%d\n", msg_no);
 
     while (true) {
-	    struct sockaddr_storage temp;
-        socklen_t temp_len;
 
         msg_no++;
-        printf("About to send: %s\n", msg);
+        printf("Sending: %s\n", msg);
 
-	    while ((numbytes = recvfrom(connection.sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&temp, &temp_len)) != -1) {
+        while ((numbytes = Server_receive(buf, MAXBUFLEN)) != -1) {
 	        buf[numbytes] = '\0';
-	        printf("listener: packet contains \"%s\"\n", buf);
+	        printf("Receiving: %s\n", buf);
 	    }
         if (errno != EAGAIN && errno != EWOULDBLOCK) {
 	    	perror("recvfrom");
         }
 
 
-	    if ((numbytes = sendto(connection.sockfd, msg, strlen(msg), 0,
-	    		 (const struct sockaddr *)&connection.client_addr, sizeof(connection.client_addr))) == -1) {
+        if ((numbytes = Server_send(msg)) == -1) {
 	    	perror("listener: sendto");
 	    }
-
-	    printf("listener: sent %d bytes\n", numbytes);
 
         wait(0, 10000);
     }

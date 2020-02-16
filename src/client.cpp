@@ -27,7 +27,10 @@ struct networkInfo {
 };
 struct networkInfo connection;
 
-void connect() {
+void initialize();
+void connect();
+
+void initialize() {
 	struct addrinfo *p, hints, *servinfo;
     strcpy(connection.server_ip, "127.0.0.1");
     //strcpy(connection.server_ip, "206.87.203.1");
@@ -65,39 +68,54 @@ void connect() {
 	}
     connection.netInfo = p;
 }
-int main(int argc, char *argv[])
-{
-    connect();
-
-    char first_msg[] = "client connect\n";
+void connect() {
+    char first_msg[] = "Sending connection request\n";
 	int numbytes;
 	if ((numbytes = sendto(connection.sockfd, first_msg, strlen(first_msg), 0,
 			 connection.netInfo->ai_addr, connection.netInfo->ai_addrlen)) == -1) {
 		perror("talker: sendto");
 	}
+}
+
+int Client_receive(char* buf, int max_buf) {
+	struct sockaddr_storage temp;
+	socklen_t temp_len = sizeof(temp);
+	int numbytes = recvfrom(connection.sockfd, buf, max_buf-1 , 0, (struct sockaddr *)&temp, &temp_len);
+    return numbytes;
+}
+
+int Client_send(char* buf) {
+	int numbytes = sendto(connection.sockfd, buf, strlen(buf), 0,
+            connection.netInfo->ai_addr, connection.netInfo->ai_addrlen);
+    return numbytes;
+}
+
+int main(int argc, char *argv[])
+{
+    initialize();
+
+    connect();
+
 
     int msg_no = 0;
-	char buf[MAXBUFLEN];
 
+	char buf[MAXBUFLEN];
     char msg[1024];
+	int numbytes;
     strcpy(msg, "Hello from client ");
     snprintf(msg+strlen(msg), 1024, "%d\n", msg_no);
 
     while (true) {
         msg_no++;
-        printf("About to send: %s\n", msg);
+        printf("Sending: %s\n", msg);
 
-	    if ((numbytes = sendto(connection.sockfd, msg, strlen(msg), 0,
-	    		 connection.netInfo->ai_addr, connection.netInfo->ai_addrlen)) == -1) {
+	    if ((numbytes = Client_send(msg)) == -1) {
 	    	perror("talker: sendto");
 	    }
-	    printf("talker: sent %d bytes\n", numbytes);
 
-	    struct sockaddr_storage their_addr;
-	    socklen_t addr_len = sizeof(their_addr);
-	    while ((numbytes = recvfrom(connection.sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&their_addr, &addr_len)) != -1) {
+        while (Client_receive(buf, MAXBUFLEN) != -1) {
 	        buf[numbytes] = '\0';
-	        printf("talker: packet = \"%s\"\n", buf);
+	        printf("Receiving: %s\n", buf);
 	    }
         if (errno != EAGAIN && errno != EWOULDBLOCK) {
 	    	perror("recvfrom");
