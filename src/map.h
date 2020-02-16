@@ -31,6 +31,8 @@ class Map {
         bool clearPath(SDL_Rect playerBoxPos);
 
         int getTile(int xPos, int yPos);
+        int getTilePos(int xPos, int yPos);
+        SDL_Rect getTileRect(int tilePos);
 
         void renderMap();
     private:

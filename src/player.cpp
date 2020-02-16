@@ -79,6 +79,7 @@ void Player::updateVelocity(SDL_Event& e) {
 // Maybe check here for invalid movements?
 void Player::updatePosition(Map* currentMap) {
     SDL_Rect playerPositionBox;
+    SDL_Rect mapTileBox;
 
     xPos += xVel;
     // Check screen boundaries
@@ -95,6 +96,7 @@ void Player::updatePosition(Map* currentMap) {
         playerPositionBox.w = playerWidth;
         playerPositionBox.h = playerHeight;
         if (!currentMap->clearPath(playerPositionBox)) {
+            mapTileBox = currentMap->getTileRect(currentMap->getTilePos(xPos, yPos));
             xPos -= xVel;
         }
     }

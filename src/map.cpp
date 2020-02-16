@@ -106,6 +106,25 @@
         return mapTiles[tilePos];
     }
 
+    int Map::getTilePos(int xPos, int yPos) {
+        int tileX = xPos / TILE_WIDTH;
+        int tileY = yPos / TILE_HEIGHT;
+
+        return tileX + (tileY * NUM_WIDTH_TILES);
+    }
+
+    SDL_Rect Map::getTileRect(int tilePos) {
+        SDL_Rect tileRect;
+
+        tileRect.x = (tilePos % NUM_WIDTH_TILES) * TILE_WIDTH;
+        tileRect.w = TILE_WIDTH;
+
+        tileRect.y = (tilePos / NUM_WIDTH_TILES) * TILE_HEIGHT;
+        tileRect.h = TILE_HEIGHT;
+
+        return tileRect;
+    }
+
     void Map::renderMap() {
         int xP = 0;
         int yP = 0;
