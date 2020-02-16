@@ -13,6 +13,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <stdbool.h>
+#include <fcntl.h>
 
 #define SERVERPORT "4950"	// the port users will be connecting to
 #define MAXBUFLEN 100
@@ -57,6 +58,11 @@ int main(int argc, char *argv[])
 			continue;
 		}
 
+        if ((rv = fcntl(sockfd, F_SETFL, O_NONBLOCK)) == -1) {
+			perror("listener: fcntl");
+			continue;
+        }
+
 		break;
 	}
 
@@ -65,13 +71,19 @@ int main(int argc, char *argv[])
 		return 2;
 	}
 
+    char* first_msg = "connect with me\n";
+	if ((numbytes = sendto(sockfd, first_msg, strlen(first_msg), 0,
+			 p->ai_addr, p->ai_addrlen)) == -1) {
+		perror("talker: sendto");
+		exit(1);
+	}
+
     int msg_no = 0;
     while (true) {
         msg_no++;
         char msg[1024];
         strcpy(msg, "Hello from client ");
         snprintf(msg+strlen(msg), 1024, "%d\n", msg_no);
-
         printf("About to send %s\n", msg);
 
 	    if ((numbytes = sendto(sockfd, msg, strlen(msg), 0,
@@ -82,20 +94,19 @@ int main(int argc, char *argv[])
 	    printf("talker: sent %d bytes\n", numbytes);
 
 	    addr_len = sizeof their_addr;
-	    if ((numbytes = recvfrom(sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&their_addr, &addr_len)) == -1) {
+	    while ((numbytes = recvfrom(sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&their_addr, &addr_len)) != -1) {
+	        printf("talker: got packet from %s\n", inet_ntop(their_addr.ss_family,
+	        		get_in_addr((struct sockaddr *)&their_addr), s, sizeof s));
+	        printf("talker: packet is %d bytes long\n", numbytes);
+	        buf[numbytes] = '\0';
+	        printf("talker: packet contains \"%s\"\n", buf);
+	    }
+        if (errno != EAGAIN && errno != EWOULDBLOCK) {
 	    	perror("recvfrom");
 	    	exit(1);
-	    }
+        }
 
 
-
-	    printf("talker: got packet from %s\n",
-	    	inet_ntop(their_addr.ss_family,
-	    		get_in_addr((struct sockaddr *)&their_addr),
-	    		s, sizeof s));
-	    printf("talker: packet is %d bytes long\n", numbytes);
-	    buf[numbytes] = '\0';
-	    printf("talker: packet contains \"%s\"\n", buf);
     }
 
 	freeaddrinfo(servinfo);

@@ -13,6 +13,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <stdbool.h>
+#include <fcntl.h>
 
 #define MYPORT "4950"	// the port users will be connecting to
 
@@ -57,6 +58,10 @@ int main(void)
 			perror("listener: socket");
 			continue;
 		}
+        if ((rv = fcntl(sockfd, F_SETFL, O_NONBLOCK)) == -1) {
+			perror("listener: fcntl");
+			continue;
+        }
 
 		if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
 			close(sockfd);
@@ -74,32 +79,38 @@ int main(void)
 
 	freeaddrinfo(servinfo);
 
+    addr_len = sizeof(their_addr);
+    //get client's address info
+    do {
+        numbytes = recvfrom(sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&their_addr, &addr_len);
+    } while(numbytes == -1);
 
     int msg_no = 0;
     while (true) {
+	    struct sockaddr_storage temp;
+        socklen_t temp_len;
+
         msg_no++;
         char msg[1024];
         strcpy(msg, "Hello from server ");
         snprintf(msg+strlen(msg), 1024, "%d\n", msg_no);
-
         printf("About to send %s\n", msg);
 
-	    printf("listener: waiting to recvfrom...\n");
-
-	    addr_len = sizeof their_addr;
-	    if ((numbytes = recvfrom(sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&their_addr, &addr_len)) == -1) {
+	    while ((numbytes = recvfrom(sockfd, buf, MAXBUFLEN-1 , 0, (struct sockaddr *)&temp, &temp_len)) != -1) {
+	        printf("listener: got packet from %s\n", inet_ntop(their_addr.ss_family, 
+                        get_in_addr((struct sockaddr *)&their_addr), s, sizeof s));
+	        printf("listener: packet is %d bytes long\n", numbytes);
+	        buf[numbytes] = '\0';
+	        printf("listener: packet contains \"%s\"\n", buf);
+	    }
+        if (errno != EAGAIN && errno != EWOULDBLOCK) {
 	    	perror("recvfrom");
 	    	exit(1);
-	    }
+        }
 
-	    printf("listener: got packet from %s\n", inet_ntop(their_addr.ss_family, 
-                    get_in_addr((struct sockaddr *)&their_addr), s, sizeof s));
-	    printf("listener: packet is %d bytes long\n", numbytes);
-	    buf[numbytes] = '\0';
-	    printf("listener: packet contains \"%s\"\n", buf);
 
 	    if ((numbytes = sendto(sockfd, msg, strlen(msg), 0,
-	    		 &their_addr, sizeof(their_addr)/*p->ai_addr, p->ai_addrlen*/)) == -1) {
+	    		 (const struct sockaddr *)&their_addr, sizeof(their_addr)/*p->ai_addr, p->ai_addrlen*/)) == -1) {
 	    	perror("talker: sendto");
 	    	exit(1);
 	    }
