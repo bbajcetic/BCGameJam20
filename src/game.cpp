@@ -56,6 +56,7 @@ bool runGame() {
     player2.loadTexture("./assets/player2.png", 4, 2, 2);
     player2.changePosition(1100, 600);
 
+
 //    // Player send and recieve buffers
 //    char sendData[1024] = {0};
 //    char recvData[1024] = {0};
@@ -63,6 +64,15 @@ bool runGame() {
 //    // Set current state and init host
 //    int currentState = MAIN_MENU;
 //    bool isHost = false;
+
+    // Title screen textures
+    Texture titleGrass;
+    titleGrass.loadTexture("./assets/grassworld.png", 1, 1, 1);
+    int titlex1 = 0;
+    int titlex2 = 1280;
+
+    Texture titleText;
+    titleText.loadTexture("./assets/titletext.png", 1, 1, 1);
 
     Map* arena;
     arena = new Map();
@@ -174,7 +184,18 @@ bool runGame() {
 
         // Draw menu screen
         if (currentState == MAIN_MENU) {
+            titleGrass.render(titlex1, 0);
+            titleGrass.render(titlex2, 0, NULL, NULL, 0.0, NULL, SDL_FLIP_HORIZONTAL);
+            titlex1 = titlex1 - 2;
+            titlex2 = titlex2 - 2;
+            if (titlex1 <= -1280) {
+                titlex1 = 1280;
+            }
+            if (titlex2 <= -1280) {
+                titlex2 = 1280;
+            }
 
+            titleText.render(0,0);
         }
         // Draw players, map, zones, etc.
         else if (currentState == ACTION) {
