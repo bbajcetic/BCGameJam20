@@ -54,7 +54,7 @@ bool runGame() {
 
     //Player player2;
     player2.loadTexture("./assets/player2.png", 4, 2, 2);
-    player2.changePosition(1100, 600);
+    player2.changePosition(1180, 600);
 
 
 //    // Player send and recieve buffers
