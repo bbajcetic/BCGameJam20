@@ -9,7 +9,7 @@ const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
 // Player
-const int PLAYER_VELOCITY = 2;
+const float PLAYER_BASE_VELOCITY = 2.0;
 
 // Math
 const double PI = 3.141592653589793;

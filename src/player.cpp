@@ -4,20 +4,20 @@
 Player::Player() {
     playerTexture = NULL;
 
-    deltaVel = PLAYER_VELOCITY;
+    deltaVel = PLAYER_BASE_VELOCITY;
 
     playerWidth = 0;
     playerHeight = 0;
 
-    xPos = 0;
-    yPos = 0;
+    xPos = 0.0;
+    yPos = 0.0;
 
     updateHitBox();
 
     angle = 0.0;
 
-    xVel = 0;
-    yVel = 0;
+    xVel = 0.0;
+    yVel = 0.0;
 
     isMoving = false;
 
@@ -42,7 +42,7 @@ void Player::free() {
     playerTexture = NULL;
 }
 
-void Player::changePosition(int x, int y) {
+void Player::changePosition(float x, float y) {
 	xPos = x;
 	yPos = y;
 

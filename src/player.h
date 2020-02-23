@@ -16,7 +16,7 @@ public:
 	void free();
 
     // Setters for position and angle
-	void changePosition(int x, int y);
+	void changePosition(float x, float y);
     void changeAngle(double a);
 
     void updateVelocity(SDL_Event& e);
@@ -39,8 +39,8 @@ public:
     // Change probably since we want it smaller then sprite size
     void updateHitBox();
 
-    int getxPos() {return xPos;}
-    int getyPos() {return yPos;}
+    float getxPos() {return xPos;}
+    float getyPos() {return yPos;}
     double getAngle() {return angle;}
 
     // Get center values
@@ -55,20 +55,20 @@ public:
 private:
 	Texture* playerTexture;
 
-	int deltaVel;
+	float deltaVel;
 
 	int playerWidth;
 	int playerHeight;
 
     SDL_Rect playerHitBox;
 
-	int xPos;
-	int yPos;
+	float xPos;
+	float yPos;
 
     double angle;
 
-    int xVel;
-    int yVel;
+    float xVel;
+    float yVel;
 
     bool isMoving;
 
