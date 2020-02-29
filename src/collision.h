@@ -3,7 +3,15 @@
 
 #include <SDL2/SDL.h>
 
+#include "SDL_shapes.h"
+
 // Check collision between two SDL_Rect objects without rotation
-bool isCollision_nonRotate(SDL_Rect obj1, SDL_Rect obj2);
+bool isCollisionRectNoRotate(SDL_Rect obj1, SDL_Rect obj2);
+
+// Check collision between two SDL_FCircle objects
+bool isCollisionFCircles(SDL_FCircle circle1, SDL_FCircle circle2);
+
+// Check collision between an SDL_Rect (no rotation) and an SDL_FCircle
+bool isCollisionRectFCircle(SDL_Rect rect, SDL_FCircle circle);
 
 #endif

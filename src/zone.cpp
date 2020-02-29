@@ -56,9 +56,9 @@
     // Update zone capture status based on players in/out of zone
     void Zone::updateZone(SDL_Rect player1HitBox, SDL_Rect player2HitBox) {
         // If p1 is in/touching zone
-        if (isCollision_nonRotate(player1HitBox, zoneHitBox)) {
+        if (isCollisionRectNoRotate(player1HitBox, zoneHitBox)) {
             // if P2 is in as well
-            if (isCollision_nonRotate(player2HitBox, zoneHitBox)) {
+            if (isCollisionRectNoRotate(player2HitBox, zoneHitBox)) {
                 // Don't update zone status
                 printf("P1 and P2 in\n");
             }
@@ -68,7 +68,7 @@
             }
         }
         // Else if p2 is in
-        else if (isCollision_nonRotate(player2HitBox, zoneHitBox)) {
+        else if (isCollisionRectNoRotate(player2HitBox, zoneHitBox)) {
             // Update zone status in favour of p2
             printf("P2 in\n");
         }

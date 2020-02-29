@@ -30,4 +30,4 @@ src/zone.o: $(HEADERS) src/collision.h
 src/network.o: $(HEADERS) src/client.h src/server.h
 src/client.o: $(HEADERS)
 src/server.o: $(HEADERS)
-src/collision.o: $(HEADERS)
+src/collision.o: $(HEADERS) src/SDL_shapes.h
