@@ -14,6 +14,7 @@
 #include "timer.h"
 #include "zone.h"
 #include "network.h"
+#include "SDL_shapes.h"
 
 enum GameState {
     MAIN_MENU,

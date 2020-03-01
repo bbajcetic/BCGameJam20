@@ -1,5 +1,5 @@
 #OBJS specifies files to compile
-OBJS = src/main.o src/game.o src/texture.o src/player.o src/map.o src/custom.o src/timer.o src/zone.o src/network.o src/client.o src/server.o src/collision.o
+OBJS = src/main.o src/game.o src/texture.o src/player.o src/map.o src/custom.o src/timer.o src/zone.o src/network.o src/client.o src/server.o src/collision.o src/SDL_shapes.o
 
 #CC specifies compiler
 CC = g++
@@ -31,3 +31,4 @@ src/network.o: $(HEADERS) src/client.h src/server.h
 src/client.o: $(HEADERS)
 src/server.o: $(HEADERS)
 src/collision.o: $(HEADERS) src/SDL_shapes.h
+src/SDL_shapes.o: $(HEADERS)
