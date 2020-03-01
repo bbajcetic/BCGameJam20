@@ -175,6 +175,11 @@ void Player::renderPlayer() {
 	spriteQuad.y = (currentFrame / playerTexture->getCol()) * playerHeight;
 
 	playerTexture->render(xPos, yPos, &spriteQuad, NULL, angle);
+
+    // Extra, maybe change this
+    // Draw Hitbox
+    SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0x00, 0xFF);
+    SDL_RenderDrawCircle(gRenderer, playerHitBox);
 }
 
 // Increment the frame for which frame to render
@@ -204,9 +209,8 @@ void Player::turn(int x, int y) {
 }
 
 void Player::updateHitBox() {
-    playerHitBox.x = xPos;
-    playerHitBox.y = yPos;
-    playerHitBox.w = playerWidth;
-    playerHitBox.h = playerHeight;
+    playerHitBox.x = xPos + playerWidth/2;
+    playerHitBox.y = yPos + playerHeight/2;
+    playerHitBox.r = PLAYER_SIZE/2;
 }
 

@@ -4,6 +4,7 @@
 #include <string>
 
 #include "texture.h"
+#include "SDL_shapes.h"
 
 class Zone {
     public:
@@ -21,7 +22,7 @@ class Zone {
         void updateHitBox();
 
         // Update zone capture status based on players in/out of zone
-        void updateZone(SDL_Rect player1HitBox, SDL_Rect player2HitBox);
+        void updateZone(SDL_FCircle player1HitBox, SDL_FCircle player2HitBox);
 
 
         void renderZone();

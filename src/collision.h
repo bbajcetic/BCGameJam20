@@ -12,6 +12,6 @@ bool isCollisionRectNoRotate(SDL_Rect obj1, SDL_Rect obj2);
 bool isCollisionFCircles(SDL_FCircle circle1, SDL_FCircle circle2);
 
 // Check collision between an SDL_Rect (no rotation) and an SDL_FCircle
-bool isCollisionRectFCircle(SDL_Rect rect, SDL_FCircle circle);
+bool isCollisionFCircleRect(SDL_FCircle circle, SDL_Rect rect);
 
 #endif

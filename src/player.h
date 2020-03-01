@@ -6,6 +6,7 @@
 #include "texture.h"
 #include "constants.h"
 #include "map.h"
+#include "SDL_shapes.h"
 
 class Player {
 public:
@@ -49,7 +50,7 @@ public:
 
     bool getIsMoving() {return isMoving;}
 
-    SDL_Rect getPlayerHitBox() {return playerHitBox;}
+    SDL_FCircle getPlayerHitBox() {return playerHitBox;}
 
 
 private:
@@ -60,7 +61,7 @@ private:
 	int playerWidth;
 	int playerHeight;
 
-    SDL_Rect playerHitBox;
+    SDL_FCircle playerHitBox;
 
 	float xPos;
 	float yPos;

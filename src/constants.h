@@ -10,6 +10,7 @@ const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
 // Player
 const float PLAYER_BASE_VELOCITY = 2.0;
+const int PLAYER_SIZE = 24;
 
 // Math
 const double PI = 3.141592653589793;
