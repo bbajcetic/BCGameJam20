@@ -14,6 +14,7 @@ class Zone {
         void free();
 
         void loadZoneTexture(std::string zonePath);
+        void loadStatusTextures(std::string statusPath);
 
         void changePosition(int x, int y);
         void changeZoneDimensions(int w, int h);
@@ -26,8 +27,12 @@ class Zone {
 
 
         void renderZone();
+        void renderStatus();
     private:
         Texture* zoneTexture;
+        Texture* statusDefaultTexture;
+        Texture* statusPlayer1Texture;
+        Texture* statusPlayer2Texture;
 
         SDL_Rect zoneHitbox;
 
@@ -35,7 +40,16 @@ class Zone {
         int yPos;
 
         int width;
-        int height;        
+        int height;
+
+        // Tick count for how often to update status when inside a zone
+        int statusUpdateTick;
+
+        int statusPlayer1;
+        int statusPlayer2;
+
+        // Used to change how to render zone status bars
+        int yChange;
 };
 
 #endif

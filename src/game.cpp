@@ -85,6 +85,7 @@ bool runGame() {
 
     Zone zone;
     zone.loadZoneTexture("./assets/zoneR.png");
+    zone.loadStatusTextures("./assets/status_large.png");
     zone.changeZoneDimensions(150, 150);
     zone.changePosition(SCREEN_WIDTH/2 - 75, 50);
 
@@ -221,6 +222,7 @@ bool runGame() {
             player1.renderPlayer();
             player2.renderPlayer();
             zone.renderZone();
+            zone.renderStatus();
         }
         
 
