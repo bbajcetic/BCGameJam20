@@ -215,7 +215,7 @@ bool runGame() {
             }
             */
             // Update zone status checking if players are in a zone or not
-            zone.updateZone(player1.getPlayerHitBox(), player2.getPlayerHitBox());
+            zone.updateZone(player1.getPlayerHitbox(), player2.getPlayerHitbox());
 
             arena->renderMap();
             player1.renderPlayer();

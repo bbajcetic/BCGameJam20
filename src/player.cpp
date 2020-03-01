@@ -12,7 +12,7 @@ Player::Player() {
     xPos = 0.0;
     yPos = 0.0;
 
-    updateHitBox();
+    updateHitbox();
 
     angle = 0.0;
 
@@ -46,7 +46,7 @@ void Player::changePosition(float x, float y) {
 	xPos = x;
 	yPos = y;
 
-    updateHitBox();
+    updateHitbox();
 }
 
 void Player::changeAngle(double a) {
@@ -109,57 +109,42 @@ void Player::updateVelocity(SDL_Event& e) {
 
 // Maybe check here for invalid movements?
 void Player::updatePosition(Map* currentMap) {
-    SDL_Rect playerPositionBox;
-    SDL_Rect mapTileBox;
-
     xPos += xVel;
+    updateHitbox();
+
     // Check screen boundaries
-    if (xPos + playerWidth > SCREEN_WIDTH) {
-        xPos = SCREEN_WIDTH - playerWidth;
-    }
-    if (xPos < 0) {
-        xPos = 0;
+    if ((playerHitbox.x - playerHitbox.r < 0) ||
+        (playerHitbox.x + playerHitbox.r > SCREEN_WIDTH)) {
+        xPos -= xVel;
+        updateHitbox();
     }
 
     if (currentMap != NULL) {
-        playerPositionBox.x = xPos;
-        playerPositionBox.y = yPos;
-        playerPositionBox.w = playerWidth;
-        playerPositionBox.h = playerHeight;
-        if (!currentMap->clearPath(playerPositionBox)) {
-            /*
-            mapTileBox = currentMap->getTileRect(currentMap->getTilePos(xPos, yPos));
-            
-            if (xPos + playerWidth > mapTileBox.x) {
-                xPos = mapTileBox.x - playerWidth;
-            }
-            else if (xPos < mapTileBox.x + mapTileBox.w) {
-                //xPos = mapTileBox.x + mapTileBox.w;
-            }
-            */
+        if (!currentMap->clearPath(playerHitbox)) {
             xPos -= xVel;
+            updateHitbox();
         }
     }
 
     yPos += yVel;
+    updateHitbox();
+    
     // Check screen boundaries
-    if (yPos + playerHeight > SCREEN_HEIGHT) {
-        yPos = SCREEN_HEIGHT - playerHeight;
+    if ((playerHitbox.y - playerHitbox.r < 0) ||
+        (playerHitbox.y + playerHitbox.r > SCREEN_HEIGHT)) {
+        yPos -= yVel;
+        updateHitbox();
     }
-    if (yPos < 0) {
-        yPos = 0;
-    }
+
     if (currentMap != NULL) {
-        playerPositionBox.x = xPos;
-        playerPositionBox.y = yPos;
-        playerPositionBox.w = playerWidth;
-        playerPositionBox.h = playerHeight;
-        if (!currentMap->clearPath(playerPositionBox)) {
+        if (!currentMap->clearPath(playerHitbox)) {
             yPos -= yVel;
+            updateHitbox();
         }
     }
 
-    updateHitBox();
+
+    updateHitbox();
 
 }
 
@@ -179,7 +164,7 @@ void Player::renderPlayer() {
     // Extra, maybe change this
     // Draw Hitbox
     SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0x00, 0xFF);
-    SDL_RenderDrawCircle(gRenderer, playerHitBox);
+    SDL_RenderDrawCircle(gRenderer, playerHitbox);
 }
 
 // Increment the frame for which frame to render
@@ -208,9 +193,9 @@ void Player::turn(int x, int y) {
     //printf("%f\n", angle);
 }
 
-void Player::updateHitBox() {
-    playerHitBox.x = xPos + playerWidth/2;
-    playerHitBox.y = yPos + playerHeight/2;
-    playerHitBox.r = PLAYER_SIZE/2;
+void Player::updateHitbox() {
+    playerHitbox.x = xPos + playerWidth/2;
+    playerHitbox.y = yPos + playerHeight/2;
+    playerHitbox.r = PLAYER_SIZE/2;
 }
 

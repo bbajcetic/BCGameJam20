@@ -6,6 +6,7 @@
 
 #include "texture.h"
 #include "constants.h"
+#include "SDL_shapes.h"
 
 const int TILE_WIDTH = 16;
 const int TILE_HEIGHT = 16;
@@ -29,7 +30,7 @@ class Map {
                             std::string wallPath,
                             std::string groundPath);
 
-        bool clearPath(SDL_Rect playerBoxPos);
+        bool clearPath(SDL_FCircle playerHitbox);
 
         int getTile(int xPos, int yPos);
         int getTilePos(int xPos, int yPos);

@@ -1,6 +1,7 @@
 #include <fstream>
 
 #include "map.h"
+#include "collision.h"
 
     Map::Map() {
         mapBackground = NULL;
@@ -71,38 +72,65 @@
         }
     }
 
-    bool Map::clearPath(SDL_Rect playerBoxPos) {
-        if (getTile(playerBoxPos.x, playerBoxPos.y) == 1) {
-            return false;
-        }
-        else if (getTile(playerBoxPos.x, playerBoxPos.y + playerBoxPos.h) == 1) {
-            return false;
-        }
-        else if (getTile(playerBoxPos.x + playerBoxPos.w, playerBoxPos.y) == 1) {
-            return false;
-        }
-        else if (getTile(playerBoxPos.x + playerBoxPos.w, playerBoxPos.y + playerBoxPos.h) == 1) {
-            return false;
+    bool Map::clearPath(SDL_FCircle playerHitbox) {        
+        int xCheck;
+        int yCheck;
+        xCheck = playerHitbox.x - playerHitbox.r;
+        yCheck = playerHitbox.y - playerHitbox.r;
+
+        // Check all tiles within specified rectangle
+        while (xCheck < playerHitbox.x + playerHitbox.r) {
+            while (yCheck < playerHitbox.y + playerHitbox.r) {
+                // Check if tile is a wall
+                if (getTile(xCheck, yCheck) == 1) {
+                    // Check if tile collides with player
+                    if (isCollisionFCircleRect(playerHitbox, getTileRect(getTilePos(xCheck, yCheck)))) {
+                        return false;
+                    }
+                }
+                yCheck = yCheck + TILE_HEIGHT;
+            }
+            yCheck = playerHitbox.y - playerHitbox.r;
+            xCheck = xCheck + TILE_WIDTH;
         }
 
-        if (playerBoxPos.x + TILE_WIDTH < playerBoxPos.x + playerBoxPos.w) {
-            if (getTile(playerBoxPos.x + TILE_WIDTH, playerBoxPos.y) == 1) {
-                return false;
+        // Check right x
+        xCheck = playerHitbox.x + playerHitbox.r;
+        yCheck = playerHitbox.y - playerHitbox.r;
+        while (yCheck < playerHitbox.y + playerHitbox.r) {
+            // Check if tile is a wall
+            if (getTile(xCheck, yCheck) == 1) {
+                // Check if tile collides with player
+                if (isCollisionFCircleRect(playerHitbox, getTileRect(getTilePos(xCheck, yCheck)))) {
+                    return false;
+                }
             }
-            else if (getTile(playerBoxPos.x + TILE_WIDTH, playerBoxPos.y + playerBoxPos.h) == 1) {
-                return false;
-            }
-        }
-        
-        if (playerBoxPos.y + TILE_HEIGHT < playerBoxPos.y + playerBoxPos.h) {
-            if (getTile(playerBoxPos.x, playerBoxPos.y + TILE_HEIGHT) == 1) {
-                return false;
-            }
-            else if (getTile(playerBoxPos.x + playerBoxPos.w, playerBoxPos.y + TILE_HEIGHT) == 1) {
-                return false;
-            }
+            yCheck = yCheck + TILE_HEIGHT;
         }
 
+        // Check bottom y
+        xCheck = playerHitbox.x - playerHitbox.r;
+        yCheck = playerHitbox.y + playerHitbox.r;
+        while (xCheck < playerHitbox.x + playerHitbox.r) {
+            // Check if tile is a wall
+            if (getTile(xCheck, yCheck) == 1) {
+                // Check if tile collides with player
+                if (isCollisionFCircleRect(playerHitbox, getTileRect(getTilePos(xCheck, yCheck)))) {
+                    return false;
+                }
+            }
+            xCheck = xCheck + TILE_WIDTH;
+        }
+
+        // Check bottom right
+        xCheck = playerHitbox.x + playerHitbox.r;
+        yCheck = playerHitbox.y + playerHitbox.r;
+        if (getTile(xCheck, yCheck) == 1) {
+            // Check if tile collides with player
+            if (isCollisionFCircleRect(playerHitbox, getTileRect(getTilePos(xCheck, yCheck)))) {
+                return false;
+            }
+        }
         return true;
     }
 

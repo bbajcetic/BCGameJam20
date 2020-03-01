@@ -38,7 +38,7 @@ public:
 
     // Update hitbox based on x, y, width, and height
     // Change probably since we want it smaller then sprite size
-    void updateHitBox();
+    void updateHitbox();
 
     float getxPos() {return xPos;}
     float getyPos() {return yPos;}
@@ -50,7 +50,7 @@ public:
 
     bool getIsMoving() {return isMoving;}
 
-    SDL_FCircle getPlayerHitBox() {return playerHitBox;}
+    SDL_FCircle getPlayerHitbox() {return playerHitbox;}
 
 
 private:
@@ -61,7 +61,7 @@ private:
 	int playerWidth;
 	int playerHeight;
 
-    SDL_FCircle playerHitBox;
+    SDL_FCircle playerHitbox;
 
 	float xPos;
 	float yPos;

@@ -19,17 +19,17 @@ class Zone {
         void changeZoneDimensions(int w, int h);
 
         // Update hitbox based on x, y, width, and height parameters
-        void updateHitBox();
+        void updateHitbox();
 
         // Update zone capture status based on players in/out of zone
-        void updateZone(SDL_FCircle player1HitBox, SDL_FCircle player2HitBox);
+        void updateZone(SDL_FCircle player1Hitbox, SDL_FCircle player2Hitbox);
 
 
         void renderZone();
     private:
         Texture* zoneTexture;
 
-        SDL_Rect zoneHitBox;
+        SDL_Rect zoneHitbox;
 
         int xPos;
         int yPos;
