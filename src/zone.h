@@ -14,7 +14,7 @@ class Zone {
         void free();
 
         void loadZoneTexture(std::string zonePath);
-        void loadStatusTextures(std::string statusPath);
+        void loadStatusTextures(std::string statusPath, std::string statusBorderPath);
 
         void changePosition(int x, int y);
         void changeZoneDimensions(int w, int h);
@@ -33,6 +33,7 @@ class Zone {
         Texture* statusDefaultTexture;
         Texture* statusPlayer1Texture;
         Texture* statusPlayer2Texture;
+        Texture* statusBorderTexture;
 
         SDL_Rect zoneHitbox;
 

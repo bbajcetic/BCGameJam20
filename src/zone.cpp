@@ -11,6 +11,7 @@
         statusDefaultTexture = NULL;
         statusPlayer1Texture = NULL;
         statusPlayer2Texture = NULL;
+        statusBorderTexture = NULL;
 
         xPos = 0;
         yPos = 0;
@@ -51,6 +52,11 @@
             statusPlayer2Texture->free();
             statusPlayer2Texture = NULL;
         }
+
+        if (statusBorderTexture != NULL) {
+            statusBorderTexture->free();
+            statusBorderTexture = NULL;
+        }
     }
 
     void Zone::loadZoneTexture(std::string zonePath) {
@@ -59,7 +65,7 @@
         SDL_SetTextureAlphaMod(zoneTexture->getTexture(), Uint8(100));
     }
 
-    void Zone::loadStatusTextures(std::string statusPath) {
+    void Zone::loadStatusTextures(std::string statusPath, std::string statusBorderPath) {
         statusDefaultTexture = new Texture();
         statusDefaultTexture->loadTexture(statusPath, 1, 1, 1);
         SDL_SetTextureColorMod(statusDefaultTexture->getTexture(), 0xFF, 0xFF, 0x00);
@@ -71,6 +77,10 @@
         statusPlayer2Texture = new Texture();
         statusPlayer2Texture->loadTexture(statusPath, 1, 1, 1);
         SDL_SetTextureColorMod(statusPlayer2Texture->getTexture(), 0xFF, 0x00, 0x00);
+
+        statusBorderTexture = new Texture();
+        statusBorderTexture->loadTexture(statusBorderPath, 1, 1, 1);
+        //SDL_SetTextureColorMod(statusBorderTexture->getTexture(), 0x4C, 0x23, 0x00);
     }
 
     void Zone::changePosition(int x, int y) {
@@ -193,6 +203,9 @@
                 statusPlayer2Texture->render(SCREEN_WIDTH / 2 - 128, SCREEN_HEIGHT - (16 + (yChange - 688)), &player2Rect2);
             }
         }
+
+        // Render status border
+        statusBorderTexture->render(SCREEN_WIDTH / 2 - 132, SCREEN_HEIGHT - 52);
 
         yChange++;
         if (yChange >= 720) {
